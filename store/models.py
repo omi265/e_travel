@@ -23,6 +23,7 @@ class Flights(models.Model):
     #airline = models.CharField(max_length=20, null=True)
     code = models.CharField(max_length=8, null=True)
     duration = models.CharField(max_length=20, null=True)
+    price = models.IntegerField(default=5000)
     time = models.DateTimeField()
     fromdest = models.CharField(max_length=20, null=True)
     todest = models.CharField(max_length=20, null=True)
@@ -30,5 +31,19 @@ class Flights(models.Model):
     def __str__(self):
         return self.code
 
+class Location(models.Model):
+    place = models.CharField(max_length=20, null=True)
 
+    def __str__(self):
+        return self.place
+
+class Hotel(models.Model):
+    place = models.ForeignKey('Location', on_delete=models.CASCADE)
+    name = models.CharField(max_length=20, null=True)
+    stars = models.IntegerField()
+    pets = models.CharField(max_length=10, null=True)
+    cpn = models.IntegerField() #cost per night   
+
+    def __str__(self):
+        return self.name
 
