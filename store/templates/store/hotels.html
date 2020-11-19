@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block page %}
+<div class="container-fluid mt-3">
+    <div class="card text-center">
+        <div class="card-body">
+            <form>
+                <div class="form-row">
+                    <div class="col-lg-5">
+                        <input type="text" class="form-control" placeholder="Location">
+                    </div>
+                    <div class="col">
+                        <input type="submit" value="Search" class="btn btn-primary float-right">
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+</div>
+<div class="container-fluid mt-3">
+    <div class="row">
+      <div class="col-lg-3 mx-auto">
+        <div class="list-group">
+          <a href="/store/flights" class="list-group-item list-group-item-action list-group-item-dark">All</a>
+          <a href="/store/flights" class="list-group-item list-group-item-action list-group-item-dark">1</a>
+          <a href="/store/flights" class="list-group-item list-group-item-action list-group-item-dark">2</a>
+        </div>
+      </div>
+      <div class="col-lg-8 mx-auto">
+        <div class="row">
+            <div class="card w-100 text-center">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-10"><h5 class="card-title float-left ml-2">Shanghai Palace - Baroda</h5></div>
+                        
+                    </div>
+                    <div class="row mx-auto mt-3">
+                        <p class="card-text mx-auto">Mistry Road, Near United Baroda, Baroda-42069</p> 
+                        <h6 class="card-text mx-auto">Price - $45/Night</h6>
+                    </div>
+                    
+                    <input type="submit" value="Book Now" class="btn btn-primary float-right mr-2">
+                </div>
+            </div>
+        </div>
+      </div>
+{% endblock %}

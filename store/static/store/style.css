@@ -2,27 +2,21 @@
     display: flex;
     align-items:center ;
     justify-content: center;
-    height: 40rem;
+    height: 45rem;
     background: url("https://www.creativelive.com/blog/wp-content/uploads/2016/01/lights-night-unsharp-blured-650x366.jpg");
 }
 
 .front-card {
-    box-shadow: 0px 2px 4px 1px rgba(126, 126, 126, 0.7);
-    border-radius: 0.5rem;
-    width: 20rem;
-    height: 2rem;
-    display: flex;
-    align-items:center ;
-    justify-content: center;
-    background-color: white;
+    min-width: 25rem;
+}
+.card {
+    border-radius: 0.7rem !important;
+}
+.card-container {
+    padding: 00.6rem;
 }
 
-.front-card:hover {
-    height: 2.2rem;
-    width: 21rem;
-}
-}
-
-.front-title {
-    /* font-weight: 700; */
+.form-shadow {
+    background-color: lightcoral;
+    box-shadow: 0px 2px 4px 1px rgba(200, 200, 200, 0.7) !important;
 }
