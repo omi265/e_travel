@@ -12,4 +12,23 @@ class Customer(models.Model):
         return self.name
 
 
+class Airlines(models.Model):
+    airline = models.CharField(max_length=20, null=True)
+
+    def __str__(self):
+        return self.airline
+
+class Flights(models.Model):
+    airline = models.ForeignKey('Airlines', on_delete=models.CASCADE)
+    #airline = models.CharField(max_length=20, null=True)
+    code = models.CharField(max_length=8, null=True)
+    duration = models.CharField(max_length=20, null=True)
+    time = models.DateTimeField()
+    fromdest = models.CharField(max_length=20, null=True)
+    todest = models.CharField(max_length=20, null=True)
+
+    def __str__(self):
+        return self.code
+
+
 
