@@ -41,6 +41,11 @@ class Flights(models.Model):
     time = models.DateTimeField()
     fromdest = models.CharField(max_length=20, null=True)
     todest = models.CharField(max_length=20, null=True)
+    ns = models.IntegerField(null=True) #total number of seats 
+    nsle = models.IntegerField(null=True) #number of seats left in economy
+    nslb = models.IntegerField(null=True) #number of seats left in business
+    nslf = models.IntegerField(null=True) #number of seats left in first class
+    obw = models.CharField(max_length=3, null=True) #on-board wifi
 
     def __str__(self):
         return self.code
