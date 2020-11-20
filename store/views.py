@@ -25,6 +25,6 @@ def loginpage(request):
             redirect('index')
     
     context = {}
-    return render(request, 'accounts/login.html', context)
+    return render(request, 'store/login.html', context)
 
 
