@@ -30,5 +30,13 @@ class Flights(models.Model):
     def __str__(self):
         return self.code
 
+    @staticmethod
+    def get_all_flights():
+        return Flights.objects.all()
+
+    class Meta:
+        ordering = ['time']
+
+
 
 

@@ -4,13 +4,17 @@
 <div class="container-fluid mt-3">
     <div class="card text-center">
         <div class="card-body">
-            <form>
+            <form action="/store/flights" method="POST">
+                {% csrf_token %}
                 <div class="form-row">
-                    <div class="col-lg-5">
-                        <input type="text" class="form-control" placeholder="From...">
+                    <div class="col-lg-4">
+                        <input type="text" name='from' class="form-control" value="{{fromloc}}" placeholder="From">
                     </div>
-                    <div class="col-lg-5">
-                        <input type="text" class="form-control" placeholder="To">
+                    <div class="col-lg-4">
+                        <input type="text" name='to' class="form-control" value="{{toloc}}" placeholder="To">
+                    </div>
+                    <div class="col-lg-3">
+                        <input type="date" name='date' value="{{tdate}}" class="form-control">
                     </div>
                     <div class="col">
                         <input type="submit" value="Search" class="btn btn-primary float-right">
@@ -30,19 +34,17 @@
         </div>
       </div>
       <div class="col-lg-8 mx-auto">
-        <div class="row">
+          {% for flt in flights %}
+        <div class="row mx-auto mb-3">
             <div class="card w-100 text-center">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-10"><h5 class="card-title float-left ml-2">Indigo Flight - AEX5TRV9</h5></div>
-                    
-                            <h6 class="card-text mr-4">25th Nov</h6>
-                            <h6 class="card-text">9:45 Am</h6>
-                        
+                        <div class="col-8"><h5 class="card-title float-left ml-2">{{flt.airline}} - {{flt.code}}</h5></div>
+                        <div class="col"><h6 class="card-text mr-4">{{flt.time}}</h6></div>
                     </div>
                     <div class="row mx-auto mt-3">
-                        <p class="card-text mx-auto">Delhi -> Mumbai</p> 
-                        <p class="card-text mx-auto">Duration - 3 Hrs 45 Mins</p>
+                        <p class="card-text mx-auto">{{flt.fromdest}} -> {{flt.todest}}</p> 
+                        <p class="card-text mx-auto">Duration - {{flt.duration}}</p>
                         <h6 class="card-text mx-auto">Price - $45</h6>
                     </div>
                     
@@ -50,5 +52,6 @@
                 </div>
             </div>
         </div>
+        {% endfor %}
       </div>
 {% endblock %}
