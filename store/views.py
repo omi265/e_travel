@@ -45,4 +45,15 @@ def loginpage(request):
     context = {}
     return render(request, 'store/login.html', context)
 
+def profilepage(request):
+    context = {}
+    return render(request, 'store/profile.html', context)
+    
+"""
+    context = {}
+    if request.method=='POST':
+        return render(request, 'store/profile.html', context)
 
+    else:
+        return render(request, 'store/login.html', context)
+"""
