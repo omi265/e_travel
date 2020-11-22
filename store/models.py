@@ -50,7 +50,6 @@ class Flights(models.Model):
     def __str__(self):
         return self.code
 
-<<<<<<< HEAD
     @staticmethod
     def get_all_flights():
         return Flights.objects.all()
@@ -59,13 +58,11 @@ class Flights(models.Model):
         ordering = ['time']
 
 
-=======
 class Location(models.Model):
     place = models.CharField(max_length=20, null=True)
 
     def __str__(self):
         return self.place
->>>>>>> 86602aff1db5fa5f5635c195a1d153a19d65d6c7
 
 class Hotel(models.Model):
     place = models.ForeignKey('Location', on_delete=models.CASCADE)
