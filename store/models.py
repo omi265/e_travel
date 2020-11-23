@@ -34,7 +34,6 @@ class Airlines(models.Model):
 
 class Flights(models.Model):
     airline = models.ForeignKey('Airlines', on_delete=models.CASCADE)
-    #airline = models.CharField(max_length=20, null=True)
     code = models.CharField(max_length=8, null=True)
     duration = models.CharField(max_length=20, null=True)
     price = models.IntegerField(default=5000)
@@ -46,6 +45,9 @@ class Flights(models.Model):
     nslb = models.IntegerField(null=True) #number of seats left in business
     nslf = models.IntegerField(null=True) #number of seats left in first class
     obw = models.CharField(max_length=3, null=True) #on-board wifi
+    baggage_lim = models.IntegerField(null=True)
+    apt_name = models.CharField(max_length=100, null=True)
+    
 
     def __str__(self):
         return self.code
