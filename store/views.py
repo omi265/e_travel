@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Flights
+from .models import Flights, Hotel
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 
@@ -27,8 +27,27 @@ class AllFlights (View):
         search_flts = frm_flts & to_flts & dt_flts
         return render (request,'store/flights.html', {'flights': search_flts, 'fromloc': fromloc, 'toloc': toloc, 'tdate': tdate})
 
-def all_hotels(request):
-    return render(request, 'store/hotels.html')
+class AllHotels (View):
+    def get (self,request):
+        hotels = Hotel.get_all_hotels().order_by('name')
+        return render(request, 'store/hotels.html', {'hotels' : hotels})
+    def post (self,request):
+        lochotel = request.POST.get('place')
+        nameofhotel = request.POST.get('name')
+        rating = request.POST.get('stars')
+        print(lochotel)
+        lochotels = Hotel.objects.filter(place__icontains = lochotel).order_by('name')
+        #print(to_flts)
+        if (rating != ""):
+            disphotels = Hotel.objects.filter(stars__icontains = rating).order_by('name')
+            #dt_flts = Flights.objects.filter(time__range=[tdate, "2023-01-31"]).order_by('time')
+        else:
+            disphotels = Hotel.get_all_hotels().order_by('name')
+        search_hotels = lochotels & disphotels
+        return render (request,'store/hotels.html', {'hotels': search_hotels, 'lochotel': lochotel, 'nameofhotel': nameofhotel, 'rating': rating})
+
+#def all_hotels(request):
+#    return render(request, 'store/hotels.html')
 
 # Create your views here.
 def loginpage(request):
