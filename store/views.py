@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from .models import Flights, Hotel
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
+from .forms import Updateuserinfo
+from django.contrib.auth.models import User
 
 def index(request):
     return render(request, 'store/home.html')
