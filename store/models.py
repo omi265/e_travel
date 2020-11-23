@@ -76,3 +76,10 @@ class Hotel(models.Model):
     def __str__(self):
         return self.name
 
+    @staticmethod
+    def get_all_hotels():
+        return Hotel.objects.all()
+
+    class Meta:
+        ordering = ['name']
+
