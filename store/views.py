@@ -39,10 +39,8 @@ class AllHotels (View):
         rating = request.POST.get('stars')
         print(lochotel)
         lochotels = Hotel.objects.filter(place__icontains = lochotel).order_by('name')
-        #print(to_flts)
         if (rating != ""):
             disphotels = Hotel.objects.filter(stars__icontains = rating).order_by('name')
-            #dt_flts = Flights.objects.filter(time__range=[tdate, "2023-01-31"]).order_by('time')
         else:
             disphotels = Hotel.get_all_hotels().order_by('name')
         search_hotels = lochotels & disphotels
