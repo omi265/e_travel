@@ -47,6 +47,8 @@ class Flights(models.Model):
     obw = models.CharField(max_length=3, null=True) #on-board wifi
     baggage_lim = models.IntegerField(null=True)
     apt_name = models.CharField(max_length=100, null=True)
+    no_stops = models.IntegerField(default=0)
+    stop_name = models.CharField(max_length=100, null=True)
     
 
     def __str__(self):
