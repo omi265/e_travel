@@ -60,10 +60,13 @@ def loginpage(request):
 
         if user is not None:
             login(request, user)
-            redirect('index')
+            return redirect('index')
     
     context = {}
     return render(request, 'store/login.html', context)
+
+def logoutpage(request):
+    logout(request)
 
 def profilepage(request):
     context = {}

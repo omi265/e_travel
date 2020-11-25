@@ -136,5 +136,7 @@ USE_TZ = True
 
 STATIC_URL = '/store/static/'
 
+LOGIN_REDIRECT_URL = '/store/'
+
 #CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
