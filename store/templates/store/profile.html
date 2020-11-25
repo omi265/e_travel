@@ -1,19 +1,59 @@
-{% extends "account/base.html" %}
+<!-- {% extends "account/base.html" %}
 
 {% load i18n %}
+{% load crispy_forms_tags %}
 
 {% block head_title %}{% trans "Profile" %}{% endblock %}
 
 {% block content %}
 <h1>{% trans "Edit Profile" %}</h1>
 
-<form method="post">
+<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}", enctype="multipart/form-data">
   {% csrf_token %}
   {{ form.as_p }}
   {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  
+
   {% endif %}
-  <button type="Save">{% trans "Update Profile" %} &raquo;</button>
+  <button type="submit">{% trans "Update Profile" %} &raquo;</button>
 </form>
+
+{% endblock %} -->
+
+{% extends 'base.html' %}
+
+{% block page %}
+
+<div class="container mt-4">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-3 mb-5">User Profile</h1>
+            {% if customer %}
+            <form action="/store/profile" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="">E-mail</label>
+                    <input type="text" name="email" value="{{customer.email}}" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="">Address</label>
+                  <input type="text" name="address" value="{{customer.address}}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">Phone</label>
+                    <input type="text" name="phone" value="{{customer.phone}}" class="form-control">
+                </div>
+                <input type="submit" class="btn btn-outline-primary float-right">
+                <a class="btn btn-outline-success float-right mr-3" href="/store/cart">Cart</a>
+                <a class="btn btn-outline-warning float-right mr-3" href="/store/wishlist">Wishlist</a>
+                <a class="btn btn-outline-danger float-right mr-3" href="/store/order">Orders</a>
+            </form>
+            {% else %}
+            <h3>You are not logged in</h3>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}
