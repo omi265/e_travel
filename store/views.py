@@ -30,6 +30,9 @@ class AllFlights (View):
         search_flts = frm_flts & to_flts & dt_flts
         return render (request,'store/flights.html', {'flights': search_flts, 'fromloc': fromloc, 'toloc': toloc, 'tdate': tdate})
 
+def bookFlts(request):
+    return render(request, 'store/book.html')
+
 class AllHotels (View):
     def get (self,request):
         hotels = Hotel.get_all_hotels().order_by('name')

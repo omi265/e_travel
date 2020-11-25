@@ -51,51 +51,70 @@
                     <div class="row mx-auto mt-3">
                         <p class="card-text mx-auto">{{flt.fromdest}} -> {{flt.todest}}</p> 
                         <p class="card-text mx-auto">Duration - {{flt.duration}}</p>
-                        <h6 class="card-text mx-auto">Price - $45</h6>
+                        <h6 class="card-text mx-auto">Price - {{flt.price}} </h6>
                     </div>
-                    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal">
+                    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#{{flt.code}}">
                         Book Now !
                     </button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="{{flt.code}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <!-- Vertically centered modal -->
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Flight Details</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="m-2 p-2">
+                                    <div class="row">
+                                        <div class="col-8"><h5 class="card-title float-left ml-2">{{flt.airline}} - {{flt.code}}</h5></div>
+                                        <div class="col"><h6 class="card-text mr-4">{{flt.time}}</h6></div>
+                                    </div>
+                                    <div class="row mx-auto mt-3">
+                                        <p class="card-text mx-auto">{{flt.fromdest}} -> {{flt.todest}}</p> 
+                                        <p class="card-text mx-auto">Duration - {{flt.duration}}</p>
+                                        <h6 class="card-text mx-auto">Price - {{flt.price}} </h6>
+                                    </div>
+                                    <div class="row mx-auto mt-3">
+                                        <p class="card-text mx-auto">On Board Wifi - {{flt.obw}}</p>
+                                        <p class="card-text mx-auto">Baggage Limit - {{flt.baggage_lim}}</p>
+                                        <p class="card-text mx-auto">Airport Name - {{flt.apt_name}}</p>
+                                        <p class="card-text mx-auto">Airport Name - {{flt.apt_name}}</p>
+                                    </div>
+                                    <div class="row mx-auto mt-3">
+                                        {% if flt.nsle %}
+                                        <p class="card-text mx-auto">Number of Seats remaining in Economy - {{flt.nsle}}</p>
+                                        {% endif %}
+                                        {% if flt.nslb %}
+                                        <p class="card-text mx-auto">Number of Seats remaining in Business - {{flt.nslb}}</p>
+                                        {% endif %}
+                                        {% if flt.nslf %}
+                                        <p class="card-text mx-auto">Number of Seats remaining in First Class - {{flt.nslf}}</p>
+                                        {% endif %}
+                                    </div>
+                                    {% if flt.nsle %}
+                                    <a class="btn btn-outline-primary float-right mt-3" href="/store/book">Book Now !</a>
+                                    <!-- <input type="submit" value="Book Now !" class="btn btn-outline-primary float-right mt-3"> -->
+                                    {% else %}
+                                    <input type="submit" value="No seats left" disabled class="btn btn-outline-danger float-right mt-3">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                            </div>
+                        </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         {% endfor %}
       </div>
     </div>
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <!-- Vertically centered modal -->
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Book Now!</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body">
-                <div class="m-2 p-2">
-                    <form action="/store/cart" method="post">
-                        {% csrf_token %}
-                        <div class="form-group">
-                          <label for="">Address</label>
-                          <input type="text" name="address" value="{{customer.address}}" class="form-control" aria-describedby="helpId">
-                          <small id="helpId" class="text-muted">Enter the address where the order is to be delivered</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="">Phone</label>
-                            <input type="text" name="phone" value="{{customer.phone}}" class="form-control" aria-describedby="helpId">
-                            <small id="helpId" class="text-muted">Enter phone number</small>
-                        </div>
-                        <input type="submit" class="btn btn-outline-primary float-right">
-                    </form>
-                </div>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-        </div>
-    </div>
+    
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 
