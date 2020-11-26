@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    #'crispy_forms'
 #Auth sutff ------------------------------------------------------------
     'django.contrib.sites',
     'allauth',
@@ -135,3 +135,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/store/static/'
+
+LOGIN_REDIRECT_URL = '/store/'
+
+#CRISPY_TEMPLATE_PACK = 'bootstrap4'
+

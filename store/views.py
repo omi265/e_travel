@@ -1,10 +1,15 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+<<<<<<< HEAD
 from .models import Flights, Hotel, Ticket, Customer
+=======
+from .models import Flights, Hotel, Customer
+#from .forms import Updateuserinfo, Updatecustomerinfo
+>>>>>>> 9f543307899b0dbb940850138b4662b888c35efe
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
-from .forms import Updateuserinfo
 from django.contrib.auth.models import User
+#from django.contrib.auth.decorators import login_required
 
 def index(request):
     return render(request, 'store/home.html')
@@ -158,10 +163,6 @@ class AllHotels (View):
         search_hotels = lochotels & disphotels
         return render (request,'store/hotels.html', {'hotels': search_hotels, 'lochotel': lochotel, 'nameofhotel': nameofhotel, 'rating': rating})
 
-#def all_hotels(request):
-#    return render(request, 'store/hotels.html')
-
-# Create your views here.
 def loginpage(request):
 
     if request.method=='POST':
@@ -172,15 +173,45 @@ def loginpage(request):
 
         if user is not None:
             login(request, user)
-            redirect('index')
+            return redirect('index')
     
     context = {}
     return render(request, 'store/login.html', context)
 
+def logoutpage(request):
+    logout(request)
+
 def profilepage(request):
     context = {}
     return render(request, 'store/profile.html', context)
+
+"""
+@login_required 
+def profilepage(request):
+    userupdateform = Updateuserinfo()
+    customerupdateform = Updatecustomerinfo()
+
+    context = {'customerupdateform': customerupdateform, 'userupdateform': userupdateform}
+    return render(request, 'store/profile.html', context)
+"""    
+
     
+"""
+    if request.method == 'POST':
+        userupdate = Updateuserinfo(request.POST, instance=request.user)
+        customerupdate = Updatecustomerinfo(request.POST, request.FILES, instance=request.user.Customer)
+        if userupdate.is_valid() and customerupdate.is_valid():
+            userupdate.save()
+            customerupdate.save()
+            messages.success(request,'Update successful')
+            return redirect('profile')
+    else:
+        userupdate = Updateuserinfo(instance=request.user)
+        customerupdate = Updatecustomerinfo(instance=request.user.Customer)
+
+    context = {'customerupdate':customerupdate, 'userupdate': userupdate}
+    return render(request, 'store/profile.html', context)
+    """
 """
     context = {}
     if request.method=='POST':
