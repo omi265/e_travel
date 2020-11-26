@@ -1,11 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-<<<<<<< HEAD
 from .models import Flights, Hotel, Ticket, Customer
-=======
-from .models import Flights, Hotel, Customer
-#from .forms import Updateuserinfo, Updatecustomerinfo
->>>>>>> 9f543307899b0dbb940850138b4662b888c35efe
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
