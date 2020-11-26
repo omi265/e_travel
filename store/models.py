@@ -85,3 +85,28 @@ class Hotel(models.Model):
     class Meta:
         ordering = ['name']
 
+
+class Ticket(models.Model):
+    flight = models.ForeignKey(Flights, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    pas1_name = models.CharField(max_length=50, null=True)
+    pas1_age = models.IntegerField(null=True)
+    pas1_gen = models.CharField(max_length=10, null=True)
+    pas2_name = models.CharField(max_length=50, null=True)
+    pas2_age = models.IntegerField(null=True)
+    pas2_gen = models.CharField(max_length=10, null=True)
+    pas3_name = models.CharField(max_length=50, null=True)
+    pas3_age = models.IntegerField(null=True)
+    pas3_gen = models.CharField(max_length=10, null=True)
+    pas4_name = models.CharField(max_length=50, null=True)
+    pas4_age = models.IntegerField(null=True)
+    pas4_gen = models.CharField(max_length=10, null=True)
+    pas5_name = models.CharField(max_length=50, null=True)
+    pas5_age = models.IntegerField(null=True)
+    pas5_gen = models.CharField(max_length=10, null=True)
+
+# class Details(models.Model):
+#     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+#     pas_name = models.CharField(max_length=50, null=True)
+#     pas_age = models.IntegerField(null=True)
+#     pas_gen = models.CharField(max_length=10, null=True)

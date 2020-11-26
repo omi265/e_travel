@@ -5,24 +5,87 @@
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
             <h1 class="display-3 mb-5">Booking Details</h1>
-            <form action="/store/userProfile" method="post">
+            <form action="/store/book" method="post">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="">E-mail</label>
-                    <input type="text" name="email" value="{{customer.email}}" class="form-control">
+                    
+                    <label for="exampleFormControlSelect1">Number of Passengers</label>
+                    <select class="form-control" id="exampleFormControlSelect1" name="select">
+                        {% if num_pass == 1 %}
+                        <option selected >1</option>
+                        {% else %}
+                        <option>1</option>
+                        {% endif %}
+                        {% if num_pass == 2 %}
+                        <option selected >2</option>
+                        {% else %}
+                        <option>2</option>
+                        {% endif %}
+                      {% if num_pass == 3 %}
+                      <option selected >3</option>
+                      {% else %}
+                      <option>3</option>
+                      {% endif %}
+                      {% if num_pass == 4 %}
+                      <option selected >4</option>
+                      {% else %}
+                      <option>4</option>
+                      {% endif %}
+                      {% if num_pass == 5 %}
+                      <option selected >5</option>
+                      {% else %}
+                      <option>5</option>
+                      {% endif %}
+                    </select>
+                  </div>
+                 
+                <input type="text" name="flight" hidden value="{{flt}}">
+        
+                {% for pass in passengers %}  
+                <label for="passenger">Details for Passenger {{pass}}</label>
+                <div class="form-group" id='passenger'>
+                    <div class="form-row">
+                        <div class="col-lg-4">
+                            <label for="name">Name</label>
+                            <input type="text" name='name_{{pass}}' class="form-control"  placeholder="Name" id='name'>
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="age">Age</label>
+                            <input type="text" name='age_{{pass}}' class="form-control" placeholder="Age" id='age'>
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="gender">Gender</label>
+                            <select class="form-control" id="gender" name="gender_{{pass}}">
+                                <option>Male</option>
+                                <option>Female</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label for="">Address</label>
                   <input type="text" name="address" value="{{customer.address}}" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="">Phone</label>
                     <input type="text" name="phone" value="{{customer.phone}}" class="form-control">
+                </div> -->
+                {% endfor %}
+                {% if passengers %}
+                <div class="form-row">
+                    <label for="type">Type</label>
                 </div>
-                <input type="submit" class="btn btn-outline-primary float-right">
-                <a class="btn btn-outline-success float-right mr-3" href="/store/cart">Cart</a>
-                <a class="btn btn-outline-warning float-right mr-3" href="/store/wishlist">Wishlist</a>
-                <a class="btn btn-outline-danger float-right mr-3" href="/store/order">Orders</a>
+                
+                <div class="form-row">
+                    <select class="form-control col-3 float-right" id="type" name="type">
+                        <option>Economy</option>
+                        <option>Business</option>
+                        <option>First Class</option>
+                    </select>
+                </div>
+                {% endif %}
+                <input type="submit" class="btn btn-outline-primary float-right" value="${{price}}">
             </form>
         </div>
     </div>
