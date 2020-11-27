@@ -248,6 +248,8 @@ def loginpage(request):
 
         if user is not None:
             login(request, user)
+            csui = request.user.id #current users id
+            print(csui)
             return redirect('index')
     
     context = {}
