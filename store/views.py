@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Flights, Hotel, Ticket, Customer
+from .models import Flights, Hotel, Ticket, Customer, create_or_update_user_profile
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+import datetime
 from django.views.generic.edit import UpdateView
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from .forms import Updatecustomerinfo, Updateuserinfo
 
-#from django.contrib.auth.decorators import login_required
 
 def index(request):
     return render(request, 'store/home.html')
@@ -19,25 +22,92 @@ class AllFlights (View):
         fromloc = request.POST.get('from')
         toloc = request.POST.get('to')
         tdate = request.POST.get('date')
-        trange = request.POST.get('range')
-        print(trange)
-        frm_flts = Flights.objects.filter(fromdest__icontains = fromloc).order_by('time')
-        to_flts = Flights.objects.filter(todest__icontains = toloc).order_by('time')
-        print(to_flts)
+        print(tdate)
         if (tdate != ""):
-            dt_flts = Flights.objects.filter(time__range=[tdate, "2023-01-31"]).order_by('time')
+            tdate = datetime.datetime.strptime(tdate, "%Y-%m-%d")
+            date = tdate
         else:
-            dt_flts = Flights.get_all_flights().order_by('time')
-        search_flts = frm_flts & to_flts & dt_flts
+            date = datetime.date.today()
+        print(tdate)
+        wifi = request.POST.get('obw')
+        non_stop = request.POST.get('non_stop')
+        early_morning = request.POST.get('early_morning')
+        morning = request.POST.get('morning')
+        afternoon = request.POST.get('afternoon')
+        night = request.POST.get('night')
+        search_flts = Flights.get_all_flights().order_by('time')
+
+        if(wifi != None):
+            src_flts = Flights.objects.filter(obw__icontains = "Yes").order_by('time')
+        else:
+            src_flts = Flights.get_all_flights().order_by('time')
+
+        if(non_stop != None):
+            non_flts = Flights.objects.filter(no_stops__icontains = 0).order_by('time')
+        else:
+            non_flts = Flights.get_all_flights().order_by('time')
+    
+        if(early_morning != None):
+            strt_time  = datetime.datetime.combine(date, datetime.time(0, 00))
+            end_time = datetime.datetime.combine(date, datetime.time(6, 00))
+            em_flts = Flights.objects.filter(time__range=[strt_time, end_time]).order_by('time')
+            
+        else:
+            em_flts = Flights.get_all_flights().order_by('time')
+
+        if(morning != None):
+            strt_time  = datetime.datetime.combine(date, datetime.time(6, 00))
+            end_time = datetime.datetime.combine(date, datetime.time(12, 00))
+            m_flts = Flights.objects.filter(time__range=[strt_time, end_time]).order_by('time')
+        else:
+            m_flts = Flights.get_all_flights().order_by('time')
+
+        if(afternoon != None):
+            strt_time  = datetime.datetime.combine(date, datetime.time(12, 00))
+            end_time = datetime.datetime.combine(date, datetime.time(18, 00))
+            a_flts = Flights.objects.filter(time__range=[strt_time, end_time]).order_by('time')
+            print(a_flts)
+        else:
+            a_flts = Flights.get_all_flights().order_by('time')
+
+        if(night != None):
+            strt_time  = datetime.datetime.combine(date, datetime.time(18, 00))
+            end_time = datetime.datetime.combine(date, datetime.time(23, 59))
+            n_flts = Flights.objects.filter(time__range=[strt_time, end_time]).order_by('time')
+        else:
+            n_flts = Flights.get_all_flights().order_by('time')
+
+
+        if (fromloc != None or toloc != None or tdate != None):
+            frm_flts = Flights.objects.filter(fromdest__icontains = fromloc).order_by('time')
+            to_flts = Flights.objects.filter(todest__icontains = toloc).order_by('time')
+            print(to_flts)
+            if (tdate != ""):
+                dt_flts = Flights.objects.filter(time__range=[tdate, "2023-01-31"]).order_by('time')
+            else:
+                dt_flts = Flights.get_all_flights().order_by('time')
+            search_flts = frm_flts & to_flts & dt_flts
+        else:
+            fromloc = {}
+            toloc = {}
+        search_flts= search_flts & non_flts & src_flts & em_flts & m_flts & a_flts & n_flts
+        if (tdate != ""):
+            tdate = tdate.strftime("%Y-%m-%d")
         return render (request,'store/flights.html', {'flights': search_flts, 'fromloc': fromloc, 'toloc': toloc, 'tdate': tdate})
+
+# class Filter (View):
+#     def post (self,request):
+#         wifi = request.POST.get('obw')
+#         non_stop = request.POST.get('non_stop')
+#         print(wifi)
+#         print(non_stop)
 
 class BookFlts (View):
     def get (self,request):
         flt_code = request.GET.get('flight')
-        print(flt_code)
         flt_obj = Flights.objects.filter(code = flt_code)
-        print(flt_obj)
-        return render(request, 'store/book.html', {'flt': flt_code})
+        price = {}
+        return render(request, 'store/book.html', {'flt': flt_code, 'price': price})
 
     def post (self,request):
         flt_code = request.POST.get('flight')
@@ -50,8 +120,14 @@ class BookFlts (View):
         no_pass = request.POST.get('select')
         no_pass = int(no_pass)
         price = 0
+        type_flt = request.POST.get('type')
         for flt in flt_obj:
-            price = flt.price * no_pass
+            if (type_flt == "Economy"):
+                price = flt.price_e * no_pass
+            if (type_flt == "Business"):
+                price = flt.price_b * no_pass
+            if (type_flt == "First Class"):
+                price = flt.price_fc * no_pass
         for i in range (0,no_pass):
             passengers.append(i+1)
 
@@ -71,7 +147,7 @@ class BookFlts (View):
         name_5 = request.POST.get('name_5')
         age_5 = request.POST.get('age_5')
         gender_5 = request.POST.get('gender_5')
-        type_flt = request.POST.get('type')
+        
 
         if(name_1):
             flt_code = request.POST.get('flight')
@@ -137,8 +213,10 @@ class BookFlts (View):
 
         return render(request, 'store/book.html', {'passengers': passengers, 'num_pass': no_pass, 'flt': flt_code, 'price': price})
 
-def ticket(request):
-    return render(request, 'store/ticket.html')
+def history(request):
+    cust_obj = Customer.objects.filter(id = 1)
+    tickets = Ticket.get_by_cust(cust_obj)
+    return render(request, 'store/history.html', {'tickets': tickets})
 
 # def bookFlts(request):
 #     return render(request, 'store/book.html')
@@ -177,7 +255,7 @@ def loginpage(request):
 
 def logoutpage(request):
     logout(request)
-
+"""
 class profilepage(UpdateView):
     def get(self , request):
         return render(request, 'store/profile.html')
@@ -199,21 +277,53 @@ class profilepage(UpdateView):
         customer.register()
 
         return redirect('/store/')
+"""
+"""
+#@login_required
+def profilepage(request):
+    if request.method == 'GET':
+        return render(request, 'store/profile.html')
+
+    elif request.method == 'POST':
+        postData=request.POST
+        name=postData.get('name')
+        phone=postData.get('phone')
+        email=postData.get('email')
+
+        value = {'name': name,'phone': phone, 'email': email}
+        current_user = request.user 
+        customer = Customer(name=name, phone=phone, email=email)
+        print(request.user.username)
+        current_user.customer.name=name
+        current_user.customer.phone=phone
+        current_user.customer.email=email
+        print(customer.name)
+        customer.register()
+
+        return render(request, 'store/profile.html')
 
 """
-def profilepage(request):
-    context = {}
-    return render(request, 'store/profile.html', context)
-"""
-"""
+
 @login_required 
 def profilepage(request):
-    userupdateform = Updateuserinfo()
-    customerupdateform = Updatecustomerinfo()
+    if request.method == 'POST':
+        userupdate = Updateuserinfo(request.POST, instance=request.user)
+        customerupdate = Updatecustomerinfo(request.POST, request.FILES, instance=request.user.customer)
 
-    context = {'customerupdateform': customerupdateform, 'userupdateform': userupdateform}
+        userupdate.save()
+        customerupdate.save()
+
+        return redirect('/store/profile/')
+
+    else:
+        userupdate = Updateuserinfo(instance=request.user)
+        customerupdate = Updatecustomerinfo(instance=request.user.customer)
+
+
+    context = {'customerupdate': customerupdate, 'userupdate': userupdate}
+    
     return render(request, 'store/profile.html', context)
-"""    
+    
 
     
 """

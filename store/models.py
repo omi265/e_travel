@@ -4,25 +4,25 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 class Customer(models.Model):
-    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=200, null=True)
     phone = models.CharField(max_length=200, null=True)
     email = models.CharField(max_length=200, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
-    def __str__(self):
-        return self.name
-        #return self.name
-
     def register(self):
         self.save()
-"""
+
+    def __str__(self):
+        #return f'{self.user.username}'
+        return self.name
+    
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
     if created:
         Customer.objects.create(user=instance)
-        #instance.profile.save()
-"""
+    instance.customer.save()
+
 """
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
@@ -39,7 +39,9 @@ class Flights(models.Model):
     airline = models.ForeignKey('Airlines', on_delete=models.CASCADE)
     code = models.CharField(max_length=8, null=True)
     duration = models.CharField(max_length=20, null=True)
-    price = models.IntegerField(default=5000)
+    price_e = models.IntegerField(default=5000)
+    price_b = models.IntegerField(default=5000)
+    price_fc = models.IntegerField(default=5000)
     time = models.DateTimeField()
     fromdest = models.CharField(max_length=20, null=True)
     todest = models.CharField(max_length=20, null=True)
@@ -107,6 +109,10 @@ class Ticket(models.Model):
     pas5_name = models.CharField(max_length=50, null=True)
     pas5_age = models.IntegerField(null=True)
     pas5_gen = models.CharField(max_length=10, null=True)
+
+    
+    def get_by_cust(customer):
+            return Ticket.objects.filter(customer__in = customer)
 
 # class Details(models.Model):
 #     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)

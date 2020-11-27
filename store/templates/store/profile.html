@@ -1,29 +1,35 @@
 {% extends 'base.html' %}
-
 {% block page %}
 
-<div class="container mt-4">
+<h1>Hi {{ user.username }}!</h1>
+
+<div class="container mt-4"> 
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
             <h1 class="display-3 mb-5">Edit Profile</h1>
             {% if user.is_authenticated %}
             <form action="/store/profile/" method="POST">
                 {% csrf_token %}
+                <p>{{userupdate}}</p>
+                <p>{{customerupdate}}</p>
+                <input type="submit" value="Update" class="btn btn-outline-primary float-right">
+                <!--
                 <div class="form-group">
                     <label for="">Name</label>
-                    <input type="text" name="name" value="{{customer.name}}" class="form-control">
+                    <input type="text" name="name" value="{{user.customer.name}}" class="form-control">
                   </div>
                 <div class="form-group">
                     <label for="">Phone</label>
-                    <input type="text" name="phone" value="{{customer.phone}}" class="form-control">
+                    <input type="text" name="phone" value="{{user.customer.phone}}" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="">E-mail</label>
-                    <input type="text" name="email" value="{{customer.email}}" class="form-control">
+                    <input type="text" name="email" value="{{user.customer.email}}" class="form-control">
                 </div>
-                <input type="submit" value="Submit" class="btn btn-outline-primary float-right">
+                <input type="submit" value="Update" class="btn btn-outline-primary float-right">
                 <a class="btn btn-outline-success float-right mr-3" href="/store/flights">Flights</a>
                 <a class="btn btn-outline-warning float-right mr-3" href="/store/hotels">Hotels</a>
+                -->
             </form>
             {% else %}
             <h3>You are not logged in.</h3>
