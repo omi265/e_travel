@@ -1,11 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-<<<<<<< HEAD
-from .models import Flights, Hotel, Customer, create_or_update_user_profile
-#from .forms import Updateuserinfo, Updatecustomerinfo
-=======
 from .models import Flights, Hotel, Ticket, Customer
->>>>>>> 36aa7ca54161a0313232e1571f2e04f728d70e2a
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -196,7 +191,10 @@ class profilepage(UpdateView):
         value = {'name': name, 'phone': phone, 'email': email}
 
         customer = Customer(name=name, phone=phone, email=email)
-        create_or_update_user_profile(User, Customer, created=True)
+        current_user = request.user.username
+        print(current_user)
+        #current_user = User(first_name=name, email=email)
+        #create_or_update_user_profile(User, Customer, created=True)
         print(name, phone, email)
         customer.register()
 
