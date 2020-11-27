@@ -10,6 +10,6 @@ urlpatterns = [
     # path('filter', views.Filter.as_view(), name='filter'),
     # path('signup', views.Signup.as_view(), name='signup'),
     path('login/', views.loginpage, name='login'),
-    path('profile/', views.profilepage, name='profile'),
+    path('profile/', views.profilepage.as_view(), name='profile'),
     # path('logout', views.logout, name='logout'),
 ]

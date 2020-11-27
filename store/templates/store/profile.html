@@ -7,7 +7,7 @@
         <div class="container">
             <h1 class="display-3 mb-5">Edit Profile</h1>
             {% if user.is_authenticated %}
-            <form action="/store/userProfile" method="post">
+            <form action="/store/profile/" method="POST">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="">Name</label>
@@ -21,7 +21,7 @@
                     <label for="">E-mail</label>
                     <input type="text" name="email" value="{{customer.email}}" class="form-control">
                 </div>
-                <input type="submit" class="btn btn-outline-primary float-right">
+                <input type="submit" value="Submit" class="btn btn-outline-primary float-right">
                 <a class="btn btn-outline-success float-right mr-3" href="/store/flights">Flights</a>
                 <a class="btn btn-outline-warning float-right mr-3" href="/store/hotels">Hotels</a>
             </form>

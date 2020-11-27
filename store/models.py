@@ -11,15 +11,18 @@ class Customer(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
-        return self.user.username
+        return self.name
         #return self.name
 
+    def register(self):
+        self.save()
+"""
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
     if created:
         Customer.objects.create(user=instance)
-    #instance.profile.save()
-
+        #instance.profile.save()
+"""
 """
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
