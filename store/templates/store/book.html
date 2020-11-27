@@ -63,20 +63,11 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="form-group">
-                  <label for="">Address</label>
-                  <input type="text" name="address" value="{{customer.address}}" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="">Phone</label>
-                    <input type="text" name="phone" value="{{customer.phone}}" class="form-control">
-                </div> -->
                 {% endfor %}
-                {% if passengers %}
+                
                 <div class="form-row">
                     <label for="type">Type</label>
                 </div>
-                
                 <div class="form-row">
                     <select class="form-control col-3 float-right" id="type" name="type">
                         <option>Economy</option>
@@ -84,8 +75,11 @@
                         <option>First Class</option>
                     </select>
                 </div>
-                {% endif %}
+                {% if price %}
                 <input type="submit" class="btn btn-outline-primary float-right" value="${{price}}">
+                {% else %}
+                <input type="submit" class="btn btn-outline-primary float-right">
+                {% endif %}
             </form>
         </div>
     </div>

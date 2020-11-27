@@ -36,7 +36,9 @@ class Flights(models.Model):
     airline = models.ForeignKey('Airlines', on_delete=models.CASCADE)
     code = models.CharField(max_length=8, null=True)
     duration = models.CharField(max_length=20, null=True)
-    price = models.IntegerField(default=5000)
+    price_e = models.IntegerField(default=5000)
+    price_b = models.IntegerField(default=5000)
+    price_fc = models.IntegerField(default=5000)
     time = models.DateTimeField()
     fromdest = models.CharField(max_length=20, null=True)
     todest = models.CharField(max_length=20, null=True)
@@ -104,6 +106,10 @@ class Ticket(models.Model):
     pas5_name = models.CharField(max_length=50, null=True)
     pas5_age = models.IntegerField(null=True)
     pas5_gen = models.CharField(max_length=10, null=True)
+
+    
+    def get_by_cust(customer):
+            return Ticket.objects.filter(customer__in = customer)
 
 # class Details(models.Model):
 #     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
