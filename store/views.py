@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Flights, Hotel, Customer
+from .models import Flights, Hotel, Customer, create_or_update_user_profile
 #from .forms import Updateuserinfo, Updatecustomerinfo
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.views.generic.edit import UpdateView
+
 #from django.contrib.auth.decorators import login_required
 
 def index(request):
@@ -68,10 +70,30 @@ def loginpage(request):
 def logoutpage(request):
     logout(request)
 
+class profilepage(UpdateView):
+    def get(self , request):
+        return render(request, 'store/profile.html')
+
+    def post(self , request):
+        postData=request.POST
+        name=postData.get('name')
+        phone=postData.get('phone')
+        email=postData.get('email')
+        
+        value = {'name': name, 'phone': phone, 'email': email}
+
+        customer = Customer(name=name, phone=phone, email=email)
+        create_or_update_user_profile(User, Customer, created=True)
+        print(name, phone, email)
+        customer.register()
+
+        return redirect('/store/')
+
+"""
 def profilepage(request):
     context = {}
     return render(request, 'store/profile.html', context)
-
+"""
 """
 @login_required 
 def profilepage(request):

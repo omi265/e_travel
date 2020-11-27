@@ -14,11 +14,14 @@ class Customer(models.Model):
         return self.user.username
         #return self.name
 
+    def register(self):
+        self.save()
+
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
     if created:
         Customer.objects.create(user=instance)
-    #instance.profile.save()
+        instance.profile.save()
 
 """
 @receiver(post_save, sender=User)
