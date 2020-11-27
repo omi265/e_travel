@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block page %}
+<div class="container mt-4">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-3 mb-5">Your Ticket has been Booked !</h1>
+            <h3 class="display-3 mb-5">Flight Details -</h3>
+            {% for flt in flight %}
+            <div class="card w-100 text-center">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-8"><h5 class="card-title float-left ml-2">{{flt.airline}} - {{flt.code}}</h5></div>
+                        <div class="col"><h6 class="card-text mr-4">{{flt.time}}</h6></div>
+                    </div>
+                    <div class="row mx-auto mt-3">
+                        <p class="card-text mx-auto">{{flt.fromdest}} -> {{flt.todest}}</p> 
+                        <p class="card-text mx-auto">Duration - {{flt.duration}}</p>
+                        <p class="card-text mx-auto">Type - {{type}} </p>
+                    </div>
+                    <div class="row mx-auto mt-3">
+                        <h6 class="card-text mx-auto">Total Price : {{price}}</h6> 
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- <h5 class="mt-3">Airline : {{flt.airline}}</h5>
+            <h5>Flight Code : {{flt.code}}</h5>
+            <h5> {{flt.fromdest}}  {{flt.todest}}</h5>
+            <h5>Flight Time: {{flt.time}}</h5>
+            <h5>Flight Duration : {{flt.duration}}</h5> -->
+            {% endfor %}
+            <table class="table mt-3">
+                <thead>
+                    <tr>
+                        <th>Sl No.</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    {% if ticket.pas1_name %}
+                    <tr>
+                        <td>1.</td>
+                        <td>{{ticket.pas1_name}}</td>
+                        <td>{{ticket.pas1_age}}</td>
+                        <td>{{ticket.pas1_gen}}</td>
+                    </tr>
+                    {% endif %}
+                    {% if ticket.pas2_name %}
+                    <tr>
+                        <td>1.</td>
+                        <td>{{ticket.pas2_name}}</td>
+                        <td>{{ticket.pas2_age}}</td>
+                        <td>{{ticket.pas2_gen}}</td>
+                    </tr>
+                    {% endif %}
+                    {% if ticket.pas3_name %}
+                    <tr>
+                        <td>1.</td>
+                        <td>{{ticket.pas3_name}}</td>
+                        <td>{{ticket.pas3_age}}</td>
+                        <td>{{ticket.pas3_gen}}</td>
+                    </tr>
+                    {% endif %}
+                    {% if ticket.pas4_name %}
+                    <tr>
+                        <td>1.</td>
+                        <td>{{ticket.pas4_name}}</td>
+                        <td>{{ticket.pas4_age}}</td>
+                        <td>{{ticket.pas4_gen}}</td>
+                    </tr>
+                    {% endif %}
+                    {% if ticket.pas5_name %}
+                    <tr>
+                        <td>1.</td>
+                        <td>{{ticket.pas5_name}}</td>
+                        <td>{{ticket.pas5_age}}</td>
+                        <td>{{ticket.pas5_gen}}</td>
+                    </tr>
+                    {% endif %}
+                    
+                </tbody>
+            </table>
+            <a href="/store/flights" class="btn btn-outline-primary float-right">Go Back Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

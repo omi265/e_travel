@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+<<<<<<< HEAD
 from .models import Flights, Hotel, Customer, create_or_update_user_profile
 #from .forms import Updateuserinfo, Updatecustomerinfo
+=======
+from .models import Flights, Hotel, Ticket, Customer
+>>>>>>> 36aa7ca54161a0313232e1571f2e04f728d70e2a
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -32,8 +36,117 @@ class AllFlights (View):
         search_flts = frm_flts & to_flts & dt_flts
         return render (request,'store/flights.html', {'flights': search_flts, 'fromloc': fromloc, 'toloc': toloc, 'tdate': tdate})
 
-def bookFlts(request):
-    return render(request, 'store/book.html')
+class BookFlts (View):
+    def get (self,request):
+        flt_code = request.GET.get('flight')
+        print(flt_code)
+        flt_obj = Flights.objects.filter(code = flt_code)
+        print(flt_obj)
+        return render(request, 'store/book.html', {'flt': flt_code})
+
+    def post (self,request):
+        flt_code = request.POST.get('flight')
+        print(flt_code)
+        flt_obj = Flights.objects.filter(code = flt_code)
+        cust_obj = Customer.objects.filter(id = 1)
+        print(cust_obj)
+        cust_obj = list(cust_obj)
+        passengers = []
+        no_pass = request.POST.get('select')
+        no_pass = int(no_pass)
+        price = 0
+        for flt in flt_obj:
+            price = flt.price * no_pass
+        for i in range (0,no_pass):
+            passengers.append(i+1)
+
+        name_1 = request.POST.get('name_1')
+        age_1 = request.POST.get('age_1')
+        gender_1 = request.POST.get ('gender_1')
+        print(gender_1)
+        name_2 = request.POST.get('name_2')
+        age_2 = request.POST.get('age_2')
+        gender_2 = request.POST.get ('gender_2')
+        name_3 = request.POST.get('name_3')
+        age_3 = request.POST.get('age_3')
+        gender_3 = request.POST.get ('gender_3')
+        name_4 = request.POST.get('name_4')
+        age_4 = request.POST.get('age_4')
+        gender_4 = request.POST.get ('gender_4')
+        name_5 = request.POST.get('name_5')
+        age_5 = request.POST.get('age_5')
+        gender_5 = request.POST.get('gender_5')
+        type_flt = request.POST.get('type')
+
+        if(name_1):
+            flt_code = request.POST.get('flight')
+            print(flt_code)
+            flt_obj = Flights.objects.filter(code = flt_code)
+            print(flt_obj)
+            flt_objl = list(flt_obj)
+            print(flt_obj)
+            for flt in flt_objl:
+                for cust in cust_obj:
+                    ticket_save = Ticket(
+                    flight= flt,
+                    customer=cust,
+                    pas1_name= name_1,
+                    pas1_age = age_1,
+                    pas1_gen = gender_1,
+                    pas2_name= name_2,
+                    pas2_age = age_2,
+                    pas2_gen = gender_2,
+                    pas3_name= name_3,
+                    pas3_age = age_3,
+                    pas3_gen = gender_3,
+                    pas4_name= name_4,
+                    pas4_age = age_4,
+                    pas4_gen = gender_4,
+                    pas5_name= name_5,
+                    pas5_age = age_5,
+                    pas5_gen = gender_5,
+            )
+                
+            ticket_save.save()
+            if (ticket_save):
+                if (type_flt == "Economy"):
+                    for flt in flt_obj:
+                        num_seats = flt.ns
+                        num_econ = flt.nsle
+                        num_seats = num_seats - no_pass
+                        num_econ = num_econ -no_pass
+                        flt.ns = num_seats
+                        flt.nsle = num_econ
+                        flt.save()
+                if (type_flt == "Business"):
+                    for flt in flt_obj:
+                        num_seats = flt.ns
+                        num_bus = flt.nslb
+                        num_seats = num_seats - no_pass
+                        num_bus = num_bus -no_pass
+                        flt.ns = num_seats
+                        flt.nslb = num_bus
+                        flt.save()
+                if (type_flt == "First Class"):
+                    for flt in flt_obj:
+                        num_seats = flt.ns
+                        num_fc = flt.nslf
+                        num_seats = num_seats - no_pass
+                        num_fc = num_fc -no_pass
+                        flt.ns = num_seats
+                        flt.nslf = num_fc
+                        flt.save()
+                return render(request, 'store/ticket.html', {'ticket': ticket_save, 'flight': flt_obj, 'type': type_flt, 'price': price})
+            
+        
+
+        return render(request, 'store/book.html', {'passengers': passengers, 'num_pass': no_pass, 'flt': flt_code, 'price': price})
+
+def ticket(request):
+    return render(request, 'store/ticket.html')
+
+# def bookFlts(request):
+#     return render(request, 'store/book.html')
 
 class AllHotels (View):
     def get (self,request):
