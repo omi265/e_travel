@@ -1,13 +1,15 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Flights, Hotel, Ticket, Customer
+from .models import Flights, Hotel, Ticket, Customer, create_or_update_user_profile
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 import datetime
 from django.views.generic.edit import UpdateView
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from .forms import Updatecustomerinfo, Updateuserinfo
 
-#from django.contrib.auth.decorators import login_required
 
 def index(request):
     return render(request, 'store/home.html')
@@ -246,6 +248,8 @@ def loginpage(request):
 
         if user is not None:
             login(request, user)
+            csui = request.user.id #current users id
+            print(csui)
             return redirect('index')
     
     context = {}
@@ -253,7 +257,7 @@ def loginpage(request):
 
 def logoutpage(request):
     logout(request)
-
+"""
 class profilepage(UpdateView):
     def get(self , request):
         return render(request, 'store/profile.html')
@@ -275,21 +279,53 @@ class profilepage(UpdateView):
         customer.register()
 
         return redirect('/store/')
+"""
+"""
+#@login_required
+def profilepage(request):
+    if request.method == 'GET':
+        return render(request, 'store/profile.html')
+
+    elif request.method == 'POST':
+        postData=request.POST
+        name=postData.get('name')
+        phone=postData.get('phone')
+        email=postData.get('email')
+
+        value = {'name': name,'phone': phone, 'email': email}
+        current_user = request.user 
+        customer = Customer(name=name, phone=phone, email=email)
+        print(request.user.username)
+        current_user.customer.name=name
+        current_user.customer.phone=phone
+        current_user.customer.email=email
+        print(customer.name)
+        customer.register()
+
+        return render(request, 'store/profile.html')
 
 """
-def profilepage(request):
-    context = {}
-    return render(request, 'store/profile.html', context)
-"""
-"""
+
 @login_required 
 def profilepage(request):
-    userupdateform = Updateuserinfo()
-    customerupdateform = Updatecustomerinfo()
+    if request.method == 'POST':
+        userupdate = Updateuserinfo(request.POST, instance=request.user)
+        customerupdate = Updatecustomerinfo(request.POST, request.FILES, instance=request.user.customer)
 
-    context = {'customerupdateform': customerupdateform, 'userupdateform': userupdateform}
+        userupdate.save()
+        customerupdate.save()
+
+        return redirect('/store/profile/')
+
+    else:
+        userupdate = Updateuserinfo(instance=request.user)
+        customerupdate = Updatecustomerinfo(instance=request.user.customer)
+
+
+    context = {'customerupdate': customerupdate, 'userupdate': userupdate}
+    
     return render(request, 'store/profile.html', context)
-"""    
+    
 
     
 """
