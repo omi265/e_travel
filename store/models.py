@@ -75,10 +75,19 @@ class Location(models.Model):
 
 class Hotel(models.Model):
     place = models.ForeignKey('Location', on_delete=models.CASCADE)
+    address = models.CharField(max_length=300, null=True)
     name = models.CharField(max_length=20, null=True)
-    stars = models.IntegerField()
+    no_std = models.IntegerField(null=True)
+    no_spl = models.IntegerField(null=True)
+    no_suite = models.IntegerField(null=True)
+    price_std = models.IntegerField(null=True)
+    price_spl = models.IntegerField(null=True)
+    price_suite = models.IntegerField(null=True)
+    stars = models.FloatField(default=4.0)
     pets = models.CharField(max_length=10, null=True)
-    cpn = models.IntegerField() #cost per night   
+    wifi = models.CharField(max_length=10, null=True)
+    pool = models.CharField(max_length=10, null=True)
+    parking = models.CharField(max_length=10, null=True)
 
     def __str__(self):
         return self.name

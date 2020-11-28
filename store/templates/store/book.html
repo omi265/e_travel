@@ -2,9 +2,9 @@
 
 {% block page %}
 <div class="container mt-4">
-    <div class="jumbotron jumbotron-fluid">
+    <div class="jumbotron jumbotron-fluid" style="border-radius: 1.5rem; background-color: rgba(255, 255, 255, 0.253); color: rgba(255, 255, 255, 0.795);">
         <div class="container">
-            <h1 class="display-3 mb-5">Booking Details</h1>
+            <h1 class="display-3 mb-5" style="letter-spacing: 5px;">Booking Details</h1>
             <form action="/store/book" method="post">
                 {% csrf_token %}
                 <div class="form-group">
@@ -70,15 +70,27 @@
                 </div>
                 <div class="form-row">
                     <select class="form-control col-3 float-right" id="type" name="type">
+                        {% if type == "Economy" %}
+                        <option selected>Economy</option>
+                        {% else %}
                         <option>Economy</option>
+                        {% endif %}
+                        {% if type == "Business" %}
+                        <option selected>Business</option>
+                        {% else %}
                         <option>Business</option>
+                        {% endif %}
+                        {% if type == "First Class" %}
+                        <option selected>First Class</option>
+                        {% else %}
                         <option>First Class</option>
+                        {% endif %}
                     </select>
                 </div>
                 {% if price %}
-                <input type="submit" class="btn btn-outline-primary float-right" value="${{price}}">
+                <input type="submit" class="btn btn-primary float-right" value="${{price}}">
                 {% else %}
-                <input type="submit" class="btn btn-outline-primary float-right">
+                <input type="submit" class="btn btn-primary float-right">
                 {% endif %}
             </form>
         </div>

@@ -211,7 +211,7 @@ class BookFlts (View):
             
         
 
-        return render(request, 'store/book.html', {'passengers': passengers, 'num_pass': no_pass, 'flt': flt_code, 'price': price})
+        return render(request, 'store/book.html', {'passengers': passengers, 'num_pass': no_pass, 'type': type_flt, 'flt': flt_code, 'price': price})
 
 def history(request):
     cust_obj = Customer.objects.filter(id = 1)
@@ -224,6 +224,7 @@ def history(request):
 class AllHotels (View):
     def get (self,request):
         hotels = Hotel.get_all_hotels().order_by('name')
+        print(hotels)
         return render(request, 'store/hotels.html', {'hotels' : hotels})
     def post (self,request):
         lochotel = request.POST.get('place')
