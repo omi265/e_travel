@@ -24,6 +24,7 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav ml-auto">
           {% if user.is_authenticated %}
+<<<<<<< HEAD
           <a class="nav-link disabled pl-5 pr-5" href="#" tabindex="-1" aria-disabled="true">Welcome {{user.username}}</a>
           <a class="nav-link " href="/store/profile">
             Edit Profile
@@ -39,6 +40,19 @@
               <path fill-rule="evenodd" d="M4 1a1 1 0 0 0-1 1v13H1.5a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2a1 1 0 0 0-1-1H4zm2 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
             </svg>
           </a>
+=======
+            {% if user.customer.name %}
+              <a class="nav-link disabled pl-5 pr-5" href="#" tabindex="-1" aria-disabled="true">Welcome {{user.customer.name}}</a>
+            {% else %}
+              <a class="nav-link disabled pl-5 pr-5" href="#" tabindex="-1" aria-disabled="true">Welcome {{user.username}}</a>
+            {% endif %}
+          <!--<a class="nav-link " href="/store/cart">Cart</a>
+          <span class="badge badge-info" style="height: fit-content;">{{request.session.cart|length}}</span>-->
+          <a class="nav-link " href="/store/history">History</a>
+          <!--<a class="nav-link " href="/store/userProfile">User Profile</a>-->
+          <a class="nav-link " href="/store/profile">Edit Profile</a>
+          <a class="nav-link " href="/accounts/logout">Logout</a>
+>>>>>>> 211a1ac1e169084348fb4d6e80898c7f37b60ea7
           {% else %}
           <a class="nav-link" href="/accounts/signup">
             SignUp
