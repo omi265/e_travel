@@ -113,7 +113,8 @@ class BookFlts (View):
         flt_code = request.POST.get('flight')
         print(flt_code)
         flt_obj = Flights.objects.filter(code = flt_code)
-        cust_obj = Customer.objects.filter(id = 1)
+        #cust_obj = Customer.objects.filter(id = 1)
+        cust_obj = User.objects.filter(id = request.user.id)
         print(cust_obj)
         cust_obj = list(cust_obj)
         passengers = []
@@ -160,7 +161,8 @@ class BookFlts (View):
                 for cust in cust_obj:
                     ticket_save = Ticket(
                     flight= flt,
-                    customer=cust,
+                    user=cust,
+                    #customer=cust,
                     pas1_name= name_1,
                     pas1_age = age_1,
                     pas1_gen = gender_1,
@@ -214,8 +216,10 @@ class BookFlts (View):
         return render(request, 'store/book.html', {'passengers': passengers, 'num_pass': no_pass, 'flt': flt_code, 'price': price})
 
 def history(request):
-    cust_obj = Customer.objects.filter(id = 1)
-    tickets = Ticket.get_by_cust(cust_obj)
+    csu_id = request.user.id #current user's id
+    cust_obj = User.objects.filter(id = csu_id)
+    #cust_obj = Customer.objects.filter(id = 1)
+    tickets = Ticket.get_by_user(cust_obj)
     return render(request, 'store/history.html', {'tickets': tickets})
 
 # def bookFlts(request):
@@ -248,8 +252,8 @@ def loginpage(request):
 
         if user is not None:
             login(request, user)
-            csui = request.user.id #current users id
-            print(csui)
+            #csui = request.user.id #current users id
+            #print(csui)
             return redirect('index')
     
     context = {}
