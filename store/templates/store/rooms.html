@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block page %}
+<div class="container mt-4">
+    <div class="jumbotron jumbotron-fluid" style="border-radius: 1.5rem; background-color: rgba(255, 255, 255, 0.253); color: rgba(255, 255, 255, 0.795);">
+        <div class="container">
+            <h1 class="display-3 mb-5" style="letter-spacing: 5px;">Room Details</h1>
+            <form action="/store/rooms" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    
+                    <label for="exampleFormControlSelect1">Number of Guests</label>
+                    <select class="form-control" id="exampleFormControlSelect1" name="select">
+                        {% if num_pass == 1 %}
+                        <option selected >1</option>
+                        {% else %}
+                        <option>1</option>
+                        {% endif %}
+                        {% if num_pass == 2 %}
+                        <option selected >2</option>
+                        {% else %}
+                        <option>2</option>
+                        {% endif %}
+                      {% if num_pass == 3 %}
+                      <option selected >3</option>
+                      {% else %}
+                      <option>3</option>
+                      {% endif %}
+                      {% if num_pass == 4 %}
+                      <option selected >4</option>
+                      {% else %}
+                      <option>4</option>
+                      {% endif %}
+                      {% if num_pass == 5 %}
+                      <option selected >5</option>
+                      {% else %}
+                      <option>5</option>
+                      {% endif %}
+                    </select>
+                  </div>
+                 
+                <input type="text" name="hotel" hidden value="{{htl}}">
+        
+                {% for guest in guests %}  
+                <label for="passenger">Details for Guest {{pass}}</label>
+                <div class="form-group" id='passenger'>
+                    <div class="form-row">
+                        <div class="col-lg-4">
+                            <label for="name">Name</label>
+                            <input type="text" name='name_{{pass}}' class="form-control"  placeholder="Name" id='name'>
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="age">Age</label>
+                            <input type="text" name='age_{{pass}}' class="form-control" placeholder="Age" id='age'>
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="gender">Gender</label>
+                            <select class="form-control" id="gender" name="gender_{{pass}}">
+                                <option>Male</option>
+                                <option>Female</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                
+                <div class="form-row">
+                    <label for="type">Type</label>
+                </div>
+                <div class="form-row">
+                    <select class="form-control col-3 float-right" id="type" name="type">
+                        {% if type == "Standard" %}
+                        <option selected>Standard</option>
+                        {% else %}
+                        <option>Standard</option>
+                        {% endif %}
+                        {% if type == "Special" %}
+                        <option selected>Special</option>
+                        {% else %}
+                        <option>Special</option>
+                        {% endif %}
+                        {% if type == "Suite" %}
+                        <option selected>Suite</option>
+                        {% else %}
+                        <option>Suite</option>
+                        {% endif %}
+                    </select>
+                </div>
+                {% if price %}
+                <input type="submit" class="btn btn-primary float-right" value="${{price}}">
+                {% else %}
+                <input type="submit" class="btn btn-primary float-right">
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

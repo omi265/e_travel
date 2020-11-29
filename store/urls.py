@@ -9,6 +9,7 @@ urlpatterns = [
     path('flights', views.AllFlights.as_view(), name='flights'),
     path('hotels', views.AllHotels.as_view(), name='hotels'),
     path('book', views.BookFlts.as_view(), name='book'),
+    path('rooms', views.BookHotel.as_view(), name='rooms'),
     path('history', views.history, name='history'),
     # path('filter', views.Filter.as_view(), name='filter'),
     # path('signup', views.Signup.as_view(), name='signup'),
