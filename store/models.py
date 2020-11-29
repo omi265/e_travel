@@ -123,7 +123,7 @@ class Ticket(models.Model):
     
 #    def get_by_cust(customer):
 #            return Ticket.objects.filter(customer__in = customer)
-
+    @staticmethod
     def get_by_user(user):
         return Ticket.objects.filter(user__in = user )
 
