@@ -472,7 +472,7 @@ class BookHotel (View):
                         num_suites = htl.no_suites -1
                         #num_rooms = num_rooms - no_std - no_spl - no_suites
                         htl.save()
-                return render(request, 'store/rooms.html', {})
+                return render(request, 'store/roomdetails.html', {'rooms': room_save, 'hotel': htl_obj, 'type': type_room})
             
 
         return render(request, 'store/rooms.html', {'guests': guests, 'type': type_room, 'price': price})
