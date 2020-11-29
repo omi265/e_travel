@@ -1,36 +1,21 @@
 {% extends 'base.html' %}
 {% block page %}
 
-<h1>Hi {{ user.username }}!</h1>
-
-<div class="container mt-4"> 
-    <div class="jumbotron jumbotron-fluid">
+<div class="container mt-4 mx-auto"> 
+    <div class="jumbotron jumbotron-fluid mx-auto" style="border-radius: 1.5rem; background-color: rgba(255, 255, 255, 0.253); color: rgba(255, 255, 255, 0.795); width: 50rem;">
         <div class="container">
             <h1 class="display-3 mb-5">Edit Profile</h1>
             {% if user.is_authenticated %}
-            <form action="/store/profile/" method="POST">
-                {% csrf_token %}
-                <p>{{userupdate}}</p>
-                <p>{{customerupdate}}</p>
-                <input type="submit" value="Update" class="btn btn-outline-primary float-right">
-                <!--
-                <div class="form-group">
-                    <label for="">Name</label>
-                    <input type="text" name="name" value="{{user.customer.name}}" class="form-control">
-                  </div>
-                <div class="form-group">
-                    <label for="">Phone</label>
-                    <input type="text" name="phone" value="{{user.customer.phone}}" class="form-control">
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <form action="/store/profile/" method="POST">
+                        {% csrf_token %}
+                        <p>{{userupdate}}</p>
+                        <p>{{customerupdate}}</p>
+                        <input type="submit" value="Update" class="btn btn-outline-primary float-right">
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="">E-mail</label>
-                    <input type="text" name="email" value="{{user.customer.email}}" class="form-control">
-                </div>
-                <input type="submit" value="Update" class="btn btn-outline-primary float-right">
-                <a class="btn btn-outline-success float-right mr-3" href="/store/flights">Flights</a>
-                <a class="btn btn-outline-warning float-right mr-3" href="/store/hotels">Hotels</a>
-                -->
-            </form>
+            </div>
             {% else %}
             <h3>You are not logged in.</h3>
             <a class="btn btn-outline-success float-right mr-3" href="/accounts/login">Login here</a>
