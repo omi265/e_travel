@@ -2,11 +2,11 @@
 
 {% block page %}
 <div class="container mt-4">
-    <div class="jumbotron jumbotron-fluid">
+    <div class="jumbotron jumbotron-fluid" style="border-radius: 1.5rem; background-color: rgba(255, 255, 255, 0.253); color: rgba(255, 255, 255, 0.795);">
         <div class="container">
             <h1 class="display-3 mb-5">Your Bookings</h1>
             {% for flt in tickets %}
-            <div class="card w-100 text-center">
+            <div class="card w-100 text-center mb-4" style="color: rgb(46, 46, 46);">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-8"><h5 class="card-title float-left ml-2">{{flt.flight.airline}} - {{flt.flight.code}}</h5></div>
