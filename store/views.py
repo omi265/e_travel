@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+<<<<<<< HEAD
 from .models import Flights, Hotel, Ticket, Customer, create_or_update_user_profile, Rooms
+=======
+from .models import Flights, Hotel, Ticket, Customer, create_or_update_user_profile, Airlines
+>>>>>>> 99df721a89d6c837ad43a541aa3d1e367171fe5f
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -17,8 +21,10 @@ def index(request):
 class AllFlights (View):
     def get (self,request):
         flights = Flights.get_all_flights().order_by('time')
-        return render(request, 'store/flights.html', {'flights' : flights})
+        lines = Airlines.objects.all()
+        return render(request, 'store/flights.html', {'flights' : flights, 'airlines': lines})
     def post (self,request):
+        lines = Airlines.objects.all()
         fromloc = request.POST.get('from')
         toloc = request.POST.get('to')
         tdate = request.POST.get('date')
@@ -36,7 +42,19 @@ class AllFlights (View):
         afternoon = request.POST.get('afternoon')
         night = request.POST.get('night')
         search_flts = Flights.get_all_flights().order_by('time')
-
+        airlines = request.POST.getlist('airlines[]')
+        print(airlines)
+        air_flts = Flights.objects.none()
+        for air in airlines:
+            air_name = Airlines.objects.filter(airline = air)
+            for name in air_name:
+                f = Flights.objects.filter(airline = name.id)
+                # air_flts = (air_flts | Flights.objects.filter(airline = name.id)).distinct()
+                air_flts = air_flts | f
+        
+        if (airlines == []):
+            air_flts = Flights.get_all_flights().order_by('time')
+        print(air_flts)
         if(wifi != None):
             src_flts = Flights.objects.filter(obw__icontains = "Yes").order_by('time')
         else:
@@ -81,7 +99,6 @@ class AllFlights (View):
         if (fromloc != None or toloc != None or tdate != None):
             frm_flts = Flights.objects.filter(fromdest__icontains = fromloc).order_by('time')
             to_flts = Flights.objects.filter(todest__icontains = toloc).order_by('time')
-            print(to_flts)
             if (tdate != ""):
                 dt_flts = Flights.objects.filter(time__range=[tdate, "2023-01-31"]).order_by('time')
             else:
@@ -90,10 +107,10 @@ class AllFlights (View):
         else:
             fromloc = {}
             toloc = {}
-        search_flts= search_flts & non_flts & src_flts & em_flts & m_flts & a_flts & n_flts
+        search_flts= search_flts & non_flts & src_flts & em_flts & m_flts & a_flts & n_flts & air_flts
         if (tdate != ""):
             tdate = tdate.strftime("%Y-%m-%d")
-        return render (request,'store/flights.html', {'flights': search_flts, 'fromloc': fromloc, 'toloc': toloc, 'tdate': tdate})
+        return render (request,'store/flights.html', {'flights': search_flts, 'fromloc': fromloc, 'toloc': toloc, 'tdate': tdate, 'airlines': lines})
 
 # class Filter (View):
 #     def post (self,request):
@@ -216,7 +233,7 @@ class BookFlts (View):
         return render(request, 'store/book.html', {'passengers': passengers, 'num_pass': no_pass, 'type': type_flt, 'flt': flt_code, 'price': price})
 
 def history(request):
-    csu_id = request.user.id #current user's id
+    csu_id = request.user.username #current user's id
     print(csu_id)
     cust_obj = User.objects.filter(username = csu_id)
     print(cust_obj)
