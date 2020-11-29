@@ -74,9 +74,9 @@
                     <form action="/store/rooms" method="post">
                         {% csrf_token %}
                         <div class="form-group">
-                          <label for="">Number of Rooms </label>
-                          <input type="number" name="numrooms" value="{{htl.numrooms}}" class="form-control" aria-describedby="helpId">
-                          <small id="helpId" class="text-muted">Enter the number of rooms you wish to book</small>
+                          <label for="">Number of Guests </label>
+                          <input type="number" name="no_guests" value="{{htl.no_guests}}" class="form-control" aria-describedby="helpId">
+                          <small id="helpId" class="text-muted">Enter the number of guests</small>
                         </div>
                         <input type="submit" class="btn btn-outline-primary float-right">
                     </form>

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Flights, Hotel, Ticket, Customer, create_or_update_user_profile
+from .models import Flights, Hotel, Ticket, Customer, create_or_update_user_profile, Rooms
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -375,21 +375,27 @@ class BookHotel (View):
         cust_obj = User.objects.filter(id = request.user.id)
         print(cust_obj)
         cust_obj = list(cust_obj)
-        rooms = []
+        guests = []
         #no_rooms = request.POST.get('select')
-        no_rooms = 2
+        no_guests = 2
         #no_rooms = int(no_rooms)
+        if no_guests >= 0 and no_guests <= 3:
+            num_rooms=1
+        elif no_guests >= 4 and no_guests < 6:
+            num_rooms=2
+        elif no_guests >= 6 and no_guests <= 8:
+            num_rooms=3
         price = 0
         type_room = request.POST.get('type')
         for htl in htl_obj:
             if (type_room == "Standard"):
-                price = htl.price_std * no_rooms
+                price = htl.price_std * num_rooms
             if (type_room == "Special"):
-                price = htl.price_spl * no_rooms
+                price = htl.price_spl * num_rooms
             if (type_room == "Suite"):
-                price = htl.price_suite * no_rooms
-        for i in range (0,no_rooms):
-            rooms.append(i+1)
+                price = htl.price_suite * num_rooms
+        for i in range (0,num_rooms):
+            guests.append(i+1)
 
         name_1 = request.POST.get('name_1')
         age_1 = request.POST.get('age_1')
@@ -412,7 +418,7 @@ class BookHotel (View):
         if(name_1):
             htl_name = request.POST.get('hotel')
             print(htl_name)
-            htl_obj = Hotel.objects.filter(code = flt_code)
+            htl_obj = Hotel.objects.filter(name = htl_name)
             print(htl_obj)
             htl_objl = list(htl_obj)
             print(htl_obj)
@@ -422,39 +428,39 @@ class BookHotel (View):
                     hotel= htl,
                     user=cust,
                     #customer=cust,
-                    pas1_name= name_1,
-                    pas1_age = age_1,
-                    pas1_gen = gender_1,
-                    pas2_name= name_2,
-                    pas2_age = age_2,
-                    pas2_gen = gender_2,
-                    pas3_name= name_3,
-                    pas3_age = age_3,
-                    pas3_gen = gender_3,
-                    pas4_name= name_4,
-                    pas4_age = age_4,
-                    pas4_gen = gender_4,
-                    pas5_name= name_5,
-                    pas5_age = age_5,
-                    pas5_gen = gender_5,
+                    gues1_name= name_1,
+                    gues1_age = age_1,
+                    gues1_gen = gender_1,
+                    gues2_name= name_2,
+                    gues2_age = age_2,
+                    gues2_gen = gender_2,
+                    gues3_name= name_3,
+                    gues3_age = age_3,
+                    gues3_gen = gender_3,
+                    gues4_name= name_4,
+                    gues4_age = age_4,
+                    gues4_gen = gender_4,
+                    gues5_name= name_5,
+                    gues5_age = age_5,
+                    gues5_gen = gender_5,
             )
                 
             room_save.save()
             if (room_save):
                 if (type_room == "Standard"):
-                    for htl in flt_obj: #change flt_obj
-                        num_stdrooms = htl.no_std
+                    for htl in htl_obj: #change flt_obj
+                        num_stdrooms = htl.no_std -1
                         htl.save()
                 if (type_room == "Special"):
-                    for flt in flt_obj:
-                        num_splrooms = htl.no_spl
+                    for flt in htl_obj:
+                        num_splrooms = htl.no_spl -1
                         htl.save()
                 if (type_room == "Suite"):
-                    for flt in flt_obj:
-                        num_suites = htl.no_suites
-                        num_rooms = num_rooms - no_std - no_spl - no_suites
+                    for flt in htl_obj:
+                        num_suites = htl.no_suites -1
+                        #num_rooms = num_rooms - no_std - no_spl - no_suites
                         htl.save()
                 return render(request, 'store/rooms.html', {})
             
 
-        return render(request, 'store/rooms.html', {'rooms': rooms, 'numrooms': no_rooms, 'type': type_room, 'price': price})
+        return render(request, 'store/rooms.html', {'guests': guests, 'type': type_room, 'price': price})
