@@ -133,6 +133,29 @@ class Ticket(models.Model):
     def get_by_user(user):
         return Ticket.objects.filter(user__in = user )
 
+class Rooms(models.Model):
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    #customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    gues1_name = models.CharField(max_length=50, null=True)
+    gues1_age = models.IntegerField(null=True)
+    gues1_gen = models.CharField(max_length=10, null=True)
+    gues2_name = models.CharField(max_length=50, null=True)
+    gues2_age = models.IntegerField(null=True)
+    gues2_gen = models.CharField(max_length=10, null=True)
+    gues3_name = models.CharField(max_length=50, null=True)
+    gues3_age = models.IntegerField(null=True)
+    gues3_gen = models.CharField(max_length=10, null=True)
+    gues4_name = models.CharField(max_length=50, null=True)
+    gues4_age = models.IntegerField(null=True)
+    gues4_gen = models.CharField(max_length=10, null=True)
+    gues5_name = models.CharField(max_length=50, null=True)
+    gues5_age = models.IntegerField(null=True)
+    gues5_gen = models.CharField(max_length=10, null=True)
+
+    @staticmethod
+    def get_by_user(user):
+        return Rooms.objects.filter(user__in = user )
 
 # class Details(models.Model):
 #     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
