@@ -1,10 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-<<<<<<< HEAD
-from .models import Flights, Hotel, Ticket, Customer, create_or_update_user_profile, Rooms
-=======
-from .models import Flights, Hotel, Ticket, Customer, create_or_update_user_profile, Airlines
->>>>>>> 99df721a89d6c837ad43a541aa3d1e367171fe5f
+from .models import Flights, Hotel, Ticket, Customer, create_or_update_user_profile, Rooms, Airlines
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -388,30 +384,29 @@ class BookHotel (View):
         htl_name = request.POST.get('hotel')
         print(htl_name)
         htl_obj = Hotel.objects.filter(name = htl_name) #change
-        #cust_obj = Customer.objects.filter(id = 1)
         cust_obj = User.objects.filter(id = request.user.id)
         print(cust_obj)
         cust_obj = list(cust_obj)
         guests = []
-        #no_rooms = request.POST.get('select')
-        no_guests = 2
+        rooms = []
+        #no_rooms = request.POST.get('select1')
+        no_rooms = 2
         #no_rooms = int(no_rooms)
-        if no_guests >= 0 and no_guests <= 3:
-            num_rooms=1
-        elif no_guests >= 4 and no_guests < 6:
-            num_rooms=2
-        elif no_guests >= 6 and no_guests <= 8:
-            num_rooms=3
+        #no_guests = request.POST.get('select2')
+        no_guests = 2
+        #no_guests = int(no_guests)
         price = 0
         type_room = request.POST.get('type')
         for htl in htl_obj:
             if (type_room == "Standard"):
-                price = htl.price_std * num_rooms
+                price = htl.price_std * no_rooms
             if (type_room == "Special"):
-                price = htl.price_spl * num_rooms
+                price = htl.price_spl * no_rooms
             if (type_room == "Suite"):
-                price = htl.price_suite * num_rooms
-        for i in range (0,num_rooms):
+                price = htl.price_suite * no_rooms
+        for i in range (0,no_rooms):
+            rooms.append(i+1)
+        for j in range (0,no_guests):
             guests.append(i+1)
 
         name_1 = request.POST.get('name_1')

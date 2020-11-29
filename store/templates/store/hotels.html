@@ -21,46 +21,69 @@
         </div>
       </div>
 </div>
+
+<!--<div class="container-fluid mt-3">
+        <div class="row">
+        <div class="col-lg-3 mx-auto">
+            <div class="list-group">
+            <a href="/store/hotels" class="list-group-item list-group-item-action list-group-item-dark">All</a>
+            <a href="/store/hotels" class="list-group-item list-group-item-action list-group-item-dark">1</a>
+            <a href="/store/hotels" class="list-group-item list-group-item-action list-group-item-dark">2</a>
+            <form>
+                <div class="form-group">
+                <label for="formControlRange">Example Range input</label>
+                <input type="range" class="form-control-range" id="formControlRange">
+                </div>
+            </form>
+            </div>
+        </div>
+        </div>
+    </div>
+-->
+
 <div class="container-fluid mt-3">
     <div class="row">
-      <div class="col-lg-3 mx-auto">
-        <div class="list-group">
-          <a href="/store/hotels" class="list-group-item list-group-item-action list-group-item-dark">All</a>
-          <a href="/store/hotels" class="list-group-item list-group-item-action list-group-item-dark">1</a>
-          <a href="/store/hotels" class="list-group-item list-group-item-action list-group-item-dark">2</a>
-          <!-- <form>
-            <div class="form-group">
-              <label for="formControlRange">Example Range input</label>
-              <input type="range" class="form-control-range" id="formControlRange">
-            </div>
-          </form> -->
-        </div>
-      </div>
-      <div class="col-lg-8 mx-auto">
-          {% for htls in hotels %}
-        <div class="row mx-auto mb-3">
-            <div class="card w-100 text-center">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-8"><h5 class="card-title float-left ml-2">{{htls.name}}</h5></div>
-                        <div class="col"><h6 class="card-text mr-4">{{htl.stars}}</h6></div>
+            <div class="col-lg-4 mx-auto">
+                <div class="card text-center" style="background-color: rgba(255, 255, 255, 0.253); color: rgba(255, 255, 255, 0.795);">
+                    <div class="card-body" ><!--
+                        <div class="form-row mt-4 ml-2">
+                            <div class="form-check form-check-inline mx-auto">
+                                <input class="form-check-input" type="checkbox" name='wifi' value="True" id="inlineCheckbox1" value="option21">
+                                <label class="form-check-label" for="inlineCheckbox1">WiFi</label>
+                            </div>
+                        </div>-->
+                        <div class="form-row">
+                            <p class="mt-5">Hotels:</p>
+                        <div class="col-lg-8 mx-auto">
+                            {% for htls in hotels %}
+                            <div class="row mx-auto mb-3">
+                                <div class="card w-100 text-center">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-8"><h5 class="card-title float-left ml-2">{{htls.name}}</h5></div>
+                                            <div class="col"><h6 class="card-text mr-4">{{htl.stars}}</h6></div>
+                                        </div>
+                                        <div class="row mx-auto mt-3">
+                                            <p class="card-text mx-auto">{{htl.place}}</p> 
+                                            <h6 class="card-text mx-auto">Average price per night: {{ htl.price_std }}</h6>
+                                        </div>
+                                        <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal">
+                                            Book Now!
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        </div>
                     </div>
-                    <div class="row mx-auto mt-3">
-                        <p class="card-text mx-auto">{{htl.place}}</p> 
-                        <h6 class="card-text mx-auto">Average price per night: {{ htl.price_std }}</h6>
-                    </div>
-                    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal">
-                        Book Now!
-                    </button>
                 </div>
             </div>
         </div>
-        {% endfor %}
-      </div>
-    </div>
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <!-- Vertically centered modal -->
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -74,12 +97,67 @@
                     <form action="/store/rooms" method="post">
                         {% csrf_token %}
                         <div class="form-group">
-                          <label for="">Number of Guests </label>
-                          <input type="number" name="no_guests" value="{{htl.no_guests}}" class="form-control" aria-describedby="helpId">
-                          <small id="helpId" class="text-muted">Enter the number of guests</small>
+                          <label for="">Rooms </label>
+                          <input type="number" name="no_rooms" value="{{htl.no_rooms}}" class="form-control" aria-describedby="helpId">
+                          <small id="helpId" class="text-muted">Enter the number of rooms (max:8)</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Guests </label>
+                            <input type="number" name="no_guests" value="{{htl.no_guests}}" class="form-control" aria-describedby="helpId">
+                            <small id="helpId" class="text-muted">Enter the number of guests(max:16)</small>
                         </div>
                         <input type="submit" class="btn btn-outline-primary float-right">
                     </form>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+
+    <!------------------------------------------------------------------------------------------------------------------------------------------------->
+    <!-- Modal -->
+    <div class="modal fade" id="{{htl.name}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="color: rgb(19, 19, 19);">
+    <!-- Vertically centered modal -->
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Room Details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <div class="m-2 p-2">
+                    <div class="row">
+                        <h5 class="card-title mx-auto mb-5">{{htl.place}}</h5>
+                    </div>
+                    <div class="row">
+                        <h6 class="card-text mx-auto mb-5">{{htl.stars}}</h6>
+                    </div>
+                    <div class="row mx-auto mt-5">
+                        <p class="card-text mx-auto">Pets - {{htl.pets}}</p>
+                        <p class="card-text mx-auto">Wifi - {{htl.wifi}}</p>
+                        <p class="card-text mx-auto">Parking - {{htl.parking}}</p>
+                        <p class="card-text mx-auto">Pool - {{htl.pool}}</p>
+                    </div>
+                    <div class="row mx-auto mt-5" style="color: rgb(128, 128, 128);">
+                        {% if htl.no_std %}
+                        <p class="card-text mx-auto">Rooms in Standard - {{htl.no_std}}</p>
+                        {% endif %}
+                        {% if htl.no_spl %}
+                        <p class="card-text mx-auto">Rooms in Special - {{htl.no_spl}}</p>
+                        {% endif %}
+                        {% if htl.no_suite %}
+                        <p class="card-text mx-auto">Suites - {{htl.no_suite}</p>
+                        {% endif %}
+                    </div>
+                    <!--{% if htl.no_std %}-->
+                    <a class="btn btn-outline-primary float-right mt-3" href="/store/rooms?hotel={{htl.name}}">Book Now!</a>
+                    <!-- <input type="submit" value="Book Now !" class="btn btn-outline-primary float-right mt-3"> -->
+                    <!--{% else %}-->
+                    <!--<input type="submit" value="No rooms left" disabled class="btn btn-outline-danger float-right mt-3">
+                    {% endif %}-->
                 </div>
             </div>
             <div class="modal-footer">
@@ -87,7 +165,7 @@
         </div>
         </div>
     </div>
-</div>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 
 

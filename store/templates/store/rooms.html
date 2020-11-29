@@ -7,10 +7,77 @@
             <h1 class="display-3 mb-5" style="letter-spacing: 5px;">Room Details</h1>
             <form action="/store/rooms" method="post">
                 {% csrf_token %}
-                <div class="form-group">
-                    
-                    <label for="exampleFormControlSelect1">Number of Guests</label>
-                    <select class="form-control" id="exampleFormControlSelect1" name="select">
+                <div class="form-group"> 
+                    <label for="exampleFormControlSelect1">Rooms</label>
+                    <select class="form-control" id="exampleFormControlSelect1" name="select1">
+                        {% if no_rooms == 1 %}
+                        <option selected >1</option>
+                        {% else %}
+                        <option>1</option>
+                        {% endif %}
+                        {% if no_rooms == 2 %}
+                        <option selected >2</option>
+                        {% else %}
+                        <option>2</option>
+                        {% endif %}
+                        {% if no_rooms == 3 %}
+                        <option selected >3</option>
+                        {% else %}
+                        <option>3</option>
+                        {% endif %}
+                        {% if no_rooms == 4 %}
+                        <option selected >4</option>
+                        {% else %}
+                        <option>4</option>
+                        {% endif %}
+                        {% if no_rooms == 5 %}
+                        <option selected >5</option>
+                        {% else %}
+                        <option>5</option>
+                        {% endif %}
+                        {% if no_rooms == 6 %}
+                        <option selected >6</option>
+                        {% else %}
+                        <option>6</option>
+                        {% endif %}
+                        {% if no_rooms == 7 %}
+                        <option selected >7</option>
+                        {% else %}
+                        <option>7</option>
+                        {% endif %}
+                        {% if no_rooms == 8 %}
+                        <option selected >8</option>
+                        {% else %}
+                        <option>8</option>
+                        {% endif %}
+                    </select>
+                    {% for i in no_rooms %}
+                        <div class="form-row">
+                            <label for="type">Type</label>
+                        </div>
+                        <div class="form-row">
+                            <select class="form-control col-3 float-right" id="type" name="type">
+                                {% if type == "Standard" %}
+                                <option selected>Standard</option>
+                                {% else %}
+                                <option>Standard</option>
+                                {% endif %}
+                                {% if type == "Special" %}
+                                <option selected>Special</option>
+                                {% else %}
+                                <option>Special</option>
+                                {% endif %}
+                                {% if type == "Suite" %}
+                                <option selected>Suite</option>
+                                {% else %}
+                                <option>Suite</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                    {% endfor %}
+
+                <label for="exampleFormControlSelect2">Guests</label>
+                <select class="form-control" id="exampleFormControlSelect2" name="select2">
                         {% if no_guests == 1 %}
                         <option selected >1</option>
                         {% else %}
@@ -51,13 +118,53 @@
                         {% else %}
                         <option>8</option>
                         {% endif %}
+                        {% if no_guests == 9 %}
+                        <option selected >9</option>
+                        {% else %}
+                        <option>9</option>
+                        {% endif %}
+                        {% if no_guests == 10 %}
+                        <option selected >10</option>
+                        {% else %}
+                        <option>10</option>
+                        {% endif %}
+                        {% if no_guests == 11 %}
+                        <option selected >11</option>
+                        {% else %}
+                        <option>11</option>
+                        {% endif %}
+                        {% if no_guests == 12 %}
+                        <option selected >12</option>
+                        {% else %}
+                        <option>12</option>
+                        {% endif %}
+                        {% if no_guests == 13 %}
+                        <option selected >13</option>
+                        {% else %}
+                        <option>13</option>
+                        {% endif %}
+                        {% if no_guests == 14 %}
+                        <option selected >14</option>
+                        {% else %}
+                        <option>14</option>
+                        {% endif %}
+                        {% if no_guests == 15 %}
+                        <option selected >15</option>
+                        {% else %}
+                        <option>15</option>
+                        {% endif %}
+                        {% if no_guests == 16 %}
+                        <option selected >16</option>
+                        {% else %}
+                        <option>16</option>
+                        {% endif %}
                     </select>
                   </div>
                  
                 <input type="text" name="hotel" hidden value="{{htl}}">
         
-                {% for guest in guests %}  
-                <label for="passenger">Details for Guest {{guest}}</label>
+                {% for guest in no_guests %}  
+                <label for="guests">Details for Guest {{guest}}</label>
                 <div class="form-group" id='guest'>
                     <div class="form-row">
                         <div class="col-lg-4">
@@ -80,30 +187,8 @@
                 </div>
                 {% endfor %}
                 
-                <div class="form-row">
-                    <label for="type">Type</label>
-                </div>
-                <div class="form-row">
-                    <select class="form-control col-3 float-right" id="type" name="type">
-                        {% if type == "Standard" %}
-                        <option selected>Standard</option>
-                        {% else %}
-                        <option>Standard</option>
-                        {% endif %}
-                        {% if type == "Special" %}
-                        <option selected>Special</option>
-                        {% else %}
-                        <option>Special</option>
-                        {% endif %}
-                        {% if type == "Suite" %}
-                        <option selected>Suite</option>
-                        {% else %}
-                        <option>Suite</option>
-                        {% endif %}
-                    </select>
-                </div>
-                {% if price %}
-                <input type="submit" class="btn btn-primary float-right" value="${{price}}">
+                {% if price_std %}
+                <input type="submit" class="btn btn-primary float-right" value="Rs.{{price}}">
                 {% else %}
                 <input type="submit" class="btn btn-primary float-right">
                 {% endif %}
