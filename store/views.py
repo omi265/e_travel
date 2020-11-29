@@ -217,8 +217,10 @@ class BookFlts (View):
 
 def history(request):
     csu_id = request.user.id #current user's id
-    cust_obj = User.objects.filter(id = csu_id)
-    #cust_obj = Customer.objects.filter(id = 1)
+    print(csu_id)
+    cust_obj = User.objects.filter(username = csu_id)
+    print(cust_obj)
+    cust_obj = Customer.objects.filter(id = 1)
     tickets = Ticket.get_by_user(cust_obj)
     return render(request, 'store/history.html', {'tickets': tickets})
 
