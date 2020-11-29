@@ -35,6 +35,11 @@ class Airlines(models.Model):
     def __str__(self):
         return self.airline
 
+    @staticmethod
+    def get_all_airlines():
+        return Airlines.objects.all()
+
+
 class Flights(models.Model):
     airline = models.ForeignKey('Airlines', on_delete=models.CASCADE)
     code = models.CharField(max_length=8, null=True)
