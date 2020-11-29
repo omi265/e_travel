@@ -8,10 +8,14 @@
                 {% csrf_token %}
                 <div class="form-row">
                     <div class="col-lg-4">
-                        <input type="text" name='place' class="form-control" value="{{lochotel}}" placeholder="Location">
+                        {% if lochotel %}
+                        <input type="text" name='place' value="{{lochotel}}" class="form-control" placeholder="Location">
+                        {% else %}
+                        <input type="text" name='place' class="form-control" placeholder="Location">
+                        {% endif %}
                     </div>
                     <div class="col-lg-3">
-                        <input type="date" name='date' value="{{tdate}}" class="form-control">
+                        <input type="date" name='date' value="{{stdate}}" class="form-control">
                     </div>
                     <div class="col">
                         <input type="submit" value="Search" class="btn btn-primary float-right">
@@ -44,7 +48,7 @@
 <div class="container-fluid mt-3">
     <div class="row">
             <div class="col-lg-4 mx-auto">
-                <div class="card text-center" style="background-color: rgba(255, 255, 255, 0.253); color: rgba(255, 255, 255, 0.795);">
+                <div class="card text-center" style="background-color: rgba(255, 255, 255, 0.253); color: rgba(37, 36, 36, 0.795);">
                     <div class="card-body" ><!--
                         <div class="form-row mt-4 ml-2">
                             <div class="form-check form-check-inline mx-auto">
@@ -81,7 +85,7 @@
             </div>
         </div>
 </div>
-
+<!--
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered">
@@ -114,15 +118,17 @@
         </div>
     </div>
 </div>
-
-    <!------------------------------------------------------------------------------------------------------------------------------------------------->
-    <!-- Modal -->
-    <div class="modal fade" id="{{htl.name}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="color: rgb(19, 19, 19);">
+-->
+<!------------------------------------------------------------------------------------------------------------------------------------------------->
+<!-- Modal -->
+<!--<div class="modal fade" id="{{htl.name}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="color: rgb(19, 19, 19);">-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="color: rgb(19, 19, 19);">
+ 
     <!-- Vertically centered modal -->
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Room Details</h5>
+            <h5 class="modal-title" id="exampleModelLabel">Room Details</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -141,19 +147,14 @@
                         <p class="card-text mx-auto">Parking - {{htl.parking}}</p>
                         <p class="card-text mx-auto">Pool - {{htl.pool}}</p>
                     </div>
-                    <div class="row mx-auto mt-5" style="color: rgb(128, 128, 128);">
-                        {% if htl.no_std %}
-                        <p class="card-text mx-auto">Rooms in Standard - {{htl.no_std}}</p>
-                        {% endif %}
-                        {% if htl.no_spl %}
-                        <p class="card-text mx-auto">Rooms in Special - {{htl.no_spl}}</p>
-                        {% endif %}
-                        {% if htl.no_suite %}
-                        <p class="card-text mx-auto">Suites - {{htl.no_suite}</p>
-                        {% endif %}
+                    <div class="row mx-auto mt-5" style="color: rgb(34, 31, 31);">
+                        <p class="card-text mx-auto">Price of Standard rooms - {{htl.price_std}}</p>
+                        <p class="card-text mx-auto">Price of Special rooms - {{htl.price_spl}}</p>
+                        <p class="card-text mx-auto">Price of Suites - {{htl.price_suite}}</p>
+
                     </div>
                     <!--{% if htl.no_std %}-->
-                    <a class="btn btn-outline-primary float-right mt-3" href="/store/rooms?hotel={{htl.name}}">Book Now!</a>
+                    <a class="btn btn-outline-primary float-right mt-3" href="/store/rooms?hotel=exampleModal">Book Now!</a>
                     <!-- <input type="submit" value="Book Now !" class="btn btn-outline-primary float-right mt-3"> -->
                     <!--{% else %}-->
                     <!--<input type="submit" value="No rooms left" disabled class="btn btn-outline-danger float-right mt-3">
@@ -163,8 +164,8 @@
             <div class="modal-footer">
             </div>
         </div>
-        </div>
     </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 

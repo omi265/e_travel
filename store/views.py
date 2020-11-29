@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Flights, Hotel, Ticket, Customer, create_or_update_user_profile, Rooms, Airlines
+from .models import Flights, Hotel, Ticket, Customer, create_or_update_user_profile, Rooms, Airlines, Location
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -243,20 +243,64 @@ def history(request):
 class AllHotels (View):
     def get (self,request):
         hotels = Hotel.get_all_hotels().order_by('name')
+        places = Location.objects.all()
         print(hotels)
-        return render(request, 'store/hotels.html', {'hotels' : hotels})
+        return render(request, 'store/hotels.html', {'hotels' : hotels, 'location': places})
+
     def post (self,request):
-        lochotel = request.POST.get('place')
-        nameofhotel = request.POST.get('name')
-        rating = request.POST.get('stars')
-        print(lochotel)
-        lochotels = Hotel.objects.filter(place__icontains = lochotel).order_by('name')
-        if (rating != ""):
-            disphotels = Hotel.objects.filter(stars__icontains = rating).order_by('name')
+        places = Location.objects.all()
+        loc = request.POST.get('place')
+        stdate = request.POST.get('date')
+        print(stdate)
+        if (stdate != ""):
+            stdate = datetime.datetime.strptime(stdate, "%Y-%m-%d")
+            date = stdate
         else:
-            disphotels = Hotel.get_all_hotels().order_by('name')
-        search_hotels = lochotels & disphotels
+            date = datetime.date.today()
+        print(stdate)
+
+        search_htls = Hotel.get_all_hotels().order_by('name')
+        location = request.POST.getlist('location[]')
+        print(location)
+        air_htls = Hotel.objects.none()
+        for locs in location:
+            htl_name = Hotel.objects.filter(place = loc)
+            for name in htl_name:
+                h = Hotel.objects.filter(location = name.id)
+                # air_flts = (air_flts | Flights.objects.filter(airline = name.id)).distinct()
+                air_htls = air_htls | h
+        if (places == []):
+            air_htls = Hotel.get_all_hotels().order_by('name')
+        print(air_htls)
+        search_htls= search_htls & air_htls 
+        if (stdate != ""):
+            stdate = stdate.strftime("%Y-%m-%d")
+        return render (request,'store/hotels.html', {'hotels': search_htls, 'loc': loc, 'stdate': stdate, 'places': places})
+
+#---------------------------------------------------------------------------------------------------------------
+"""
+        lochotel = request.POST.get('place')
+        #nameofhotel = request.POST.get('name')
+        #rating = request.POST.get('stars')
+        print(lochotel)
+        tdate = request.POST.get('date')
+        print(tdate)
+        if (tdate != ""):
+            tdate = datetime.datetime.strptime(tdate, "%Y-%m-%d")
+            date = tdate
+        else:
+            date = datetime.date.today()
+        print(tdate)
+        l_hotels = Hotel.objects.filter(place__icontains = lochotel).order_by('name') ###########################
+        #if (rating != ""):
+        #    disphotels = Hotel.objects.filter(stars__icontains = rating).order_by('name')
+        #else:
+        #    disphotels = Hotel.get_all_hotels().order_by('name')
+        #search_hotels = lochotels & disphotels
+        search_hotels = l_hotels ###########################
         return render (request,'store/hotels.html', {'hotels': search_hotels, 'lochotel': lochotel, 'nameofhotel': nameofhotel, 'rating': rating})
+"""
+#----------------------------------------------------------------------------------------------------------------------
 
 def loginpage(request):
 
