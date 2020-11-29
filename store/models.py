@@ -103,7 +103,7 @@ class Hotel(models.Model):
 class Ticket(models.Model):
     flight = models.ForeignKey(Flights, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    #customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     pas1_name = models.CharField(max_length=50, null=True)
     pas1_age = models.IntegerField(null=True)
     pas1_gen = models.CharField(max_length=10, null=True)
@@ -125,7 +125,7 @@ class Ticket(models.Model):
 #            return Ticket.objects.filter(customer__in = customer)
     @staticmethod
     def get_by_user(user):
-        return Ticket.objects.filter(customer__in = user )
+        return Ticket.objects.filter(user__in = user )
 
 
 # class Details(models.Model):
