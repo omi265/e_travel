@@ -2,24 +2,26 @@
 
 {% block page %}
 <div class="container mt-4">
-    <div class="jumbotron jumbotron-fluid">
+    <div class="jumbotron jumbotron-fluid" style="border-radius: 1.5rem; background-color: rgba(255, 255, 255, 0.253); color: rgba(255, 255, 255, 0.795);">
         <div class="container">
             <h1 class="display-3 mb-5">Your Ticket has been Booked !</h1>
             <h3 class="display-3 mb-5">Flight Details -</h3>
             {% for flt in flight %}
-            <div class="card w-100 text-center">
+            <div class="card w-100 text-center" style="color: rgb(46, 46, 46);">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-8"><h5 class="card-title float-left ml-2">{{flt.airline}} - {{flt.code}}</h5></div>
                         <div class="col"><h6 class="card-text mr-4">{{flt.time}}</h6></div>
                     </div>
                     <div class="row mx-auto mt-3">
-                        <p class="card-text mx-auto">{{flt.fromdest}} -> {{flt.todest}}</p> 
-                        <p class="card-text mx-auto">Duration - {{flt.duration}}</p>
-                        <p class="card-text mx-auto">Type - {{type}} </p>
-                    </div>
-                    <div class="row mx-auto mt-3">
-                        <h6 class="card-text mx-auto">Total Price : {{price}}</h6> 
+                        <p class="card-text float-left">{{flt.duration}}</p>
+                        <div class="mx-auto" style="width: 10rem;">
+                            <p class="card-text mx-auto">{{flt.fromdest}}</p>
+                            <hr class="hr_line2">
+                            <p class="card-text mx-auto">{{flt.todest}}</p>
+                        </div>
+                        <!-- <p class="card-text mx-auto">{{flt.fromdest}} {{flt.todest}}</p>  -->
+                        <h6 class="card-text float-right">Price - {{price}} </h6>
                         
                     </div>
                 </div>
@@ -30,7 +32,7 @@
             <h5>Flight Time: {{flt.time}}</h5>
             <h5>Flight Duration : {{flt.duration}}</h5> -->
             {% endfor %}
-            <table class="table mt-3">
+            <table class="table mt-3" style="color: rgb(214, 214, 214);">
                 <thead>
                     <tr>
                         <th>Sl No.</th>
@@ -84,7 +86,7 @@
                     
                 </tbody>
             </table>
-            <a href="/store/flights" class="btn btn-outline-primary float-right">Go Back Home</a>
+            <a href="/store/flights" class="btn btn-primary float-right">Go Back Home</a>
         </div>
     </div>
 </div>

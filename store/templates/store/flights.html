@@ -2,8 +2,8 @@
 
 {% block page %}
 <div class="container-fluid mt-3">
-    <div class="card text-center">
-        <div class="card-body">
+    <div class="card text-center" style="background-color: rgba(255, 255, 255, 0.253); color: rgba(255, 255, 255, 0.795);">
+        <div class="card-body" >
             <form action="/store/flights" method="POST">
                 {% csrf_token %}
                 <div class="form-row">
@@ -68,22 +68,27 @@
       <div class="col-lg-10 mx-auto">
           {% for flt in flights %}
         <div class="row mx-auto mb-3">
-            <div class="card w-100 text-center">
+            <div class="card w-100 text-center" style="background-color: rgba(255, 255, 255, 0.253); color: rgba(255, 255, 255, 0.795);">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-8"><h5 class="card-title float-left ml-2">{{flt.airline}} - {{flt.code}}</h5></div>
                         <div class="col"><h6 class="card-text mr-4">{{flt.time}}</h6></div>
                     </div>
                     <div class="row mx-auto mt-3">
-                        <p class="card-text mx-auto">{{flt.fromdest}} -> {{flt.todest}}</p> 
-                        <p class="card-text mx-auto">Duration - {{flt.duration}}</p>
-                        <h6 class="card-text mx-auto">Price - {{flt.price_e}} </h6>
+                        <p class="card-text float-left">{{flt.duration}}</p>
+                        <div class="mx-auto" style="width: 10rem;">
+                            <p class="card-text mx-auto">{{flt.fromdest}}</p>
+                            <hr class="hr_line">
+                            <p class="card-text mx-auto">{{flt.todest}}</p>
+                        </div>
+                        <!-- <p class="card-text mx-auto">{{flt.fromdest}} {{flt.todest}}</p>  -->
+                        <h6 class="card-text float-right">Price - {{flt.price_e}} </h6>
                     </div>
                     <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#{{flt.code}}">
                         Book Now !
                     </button>
                     <!-- Modal -->
-                    <div class="modal fade" id="{{flt.code}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="{{flt.code}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="color: rgb(19, 19, 19);">
                         <!-- Vertically centered modal -->
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
@@ -96,29 +101,35 @@
                             <div class="modal-body">
                                 <div class="m-2 p-2">
                                     <div class="row">
-                                        <div class="col-8"><h5 class="card-title float-left ml-2">{{flt.airline}} - {{flt.code}}</h5></div>
-                                        <div class="col"><h6 class="card-text mr-4">{{flt.time}}</h6></div>
+                                        <h5 class="card-title mx-auto mb-5">{{flt.airline}} - {{flt.code}}</h5>
                                     </div>
-                                    <div class="row mx-auto mt-3">
-                                        <p class="card-text mx-auto">{{flt.fromdest}} -> {{flt.todest}}</p> 
-                                        <p class="card-text mx-auto">Duration - {{flt.duration}}</p>
-                                        <h6 class="card-text mx-auto">Price - {{flt.price}} </h6>
+                                    <div class="row">
+                                        <h6 class="card-text mx-auto mb-5">{{flt.time}}</h6>
                                     </div>
-                                    <div class="row mx-auto mt-3">
+                                    <div class="row mx-auto ">
+                                        <p class="card-text mx-auto mb-5">{{flt.duration}}</p>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mx-auto" style="width: 10rem;">
+                                            <p class="card-text mx-auto">{{flt.fromdest}}</p>
+                                            <hr class="hr_line2">
+                                            <p class="card-text mx-auto">{{flt.todest}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row mx-auto mt-5">
                                         <p class="card-text mx-auto">On Board Wifi - {{flt.obw}}</p>
                                         <p class="card-text mx-auto">Baggage Limit - {{flt.baggage_lim}}</p>
                                         <p class="card-text mx-auto">Airport Name - {{flt.apt_name}}</p>
-                                        <p class="card-text mx-auto">Airport Name - {{flt.apt_name}}</p>
                                     </div>
-                                    <div class="row mx-auto mt-3">
+                                    <div class="row mx-auto mt-5" style="color: rgb(128, 128, 128);">
                                         {% if flt.nsle %}
-                                        <p class="card-text mx-auto">Number of Seats remaining in Economy - {{flt.nsle}}</p>
+                                        <p class="card-text mx-auto">Seats in Economy - {{flt.nsle}}</p>
                                         {% endif %}
                                         {% if flt.nslb %}
-                                        <p class="card-text mx-auto">Number of Seats remaining in Business - {{flt.nslb}}</p>
+                                        <p class="card-text mx-auto">Seats in Business - {{flt.nslb}}</p>
                                         {% endif %}
                                         {% if flt.nslf %}
-                                        <p class="card-text mx-auto">Number of Seats remaining in First Class - {{flt.nslf}}</p>
+                                        <p class="card-text mx-auto">Seats in First Class - {{flt.nslf}}</p>
                                         {% endif %}
                                     </div>
                                     {% if flt.nsle %}

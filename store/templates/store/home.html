@@ -2,16 +2,27 @@
 
 {% block page %}
 <div class="front-container">
-    <div class="front-card">
-        <div class="card text-center">
-            <div class="card-body">
-              <h5 class="card-title">Welcome to</h5>
-              <a href="/store/flights" class="btn btn-info btn-lg mb-2">Catch Flights Not Feelings</a>
-              <h6>&</h6>
-              <a href="/store/hotels" class="btn btn-info btn-lg mb-2">Don't Trivago</a>
-              <p class="card-text">For All Your Flying and Hotel Needs !</p>
-            </div>
-          </div>
-    </div>
+    <a class="flight_side" href="/store/flights" style="text-decoration: none;">
+      <div class="flight_text">
+        Catch 
+      </div>
+      <div class="flight_text">
+        Flights
+      </div>
+      <div class="flight_text">
+        Not 
+      </div>
+      <div class="flight_text">
+        Feelings
+      </div>
+    </a>
+    <a class="hotel_side" href="/store/hotels" style="text-decoration: none;">
+      <div class="hotel_text">
+        Don't
+      </div>
+      <div class="hotel_text">
+        Trivago !
+      </div>
+    </a>
 </div>
 {% endblock %}

@@ -1,4 +1,7 @@
 from django.urls import path, include
+from django.conf import settings
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
@@ -12,4 +15,4 @@ urlpatterns = [
     path('login/', views.loginpage, name='login'),
     path('profile/', views.profilepage, name='profile'),
     # path('logout', views.logout, name='logout'),
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
