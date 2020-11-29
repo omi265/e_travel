@@ -77,9 +77,9 @@ class Hotel(models.Model):
     place = models.ForeignKey('Location', on_delete=models.CASCADE)
     address = models.CharField(max_length=300, null=True)
     name = models.CharField(max_length=20, null=True)
-    no_std = models.IntegerField(null=True)
-    no_spl = models.IntegerField(null=True)
-    no_suite = models.IntegerField(null=True)
+    no_std = models.IntegerField(null=True) #number of stamdard rooms
+    no_spl = models.IntegerField(null=True) #number of special rooms
+    no_suite = models.IntegerField(null=True) #number of suites
     price_std = models.IntegerField(null=True)
     price_spl = models.IntegerField(null=True)
     price_suite = models.IntegerField(null=True)
