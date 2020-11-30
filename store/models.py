@@ -156,6 +156,9 @@ class Rooms(models.Model):
     @staticmethod
     def get_by_user(user):
         return Rooms.objects.filter(user__in = user )
+    @staticmethod
+    def register(self):
+        self.save()
 
 # class Details(models.Model):
 #     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)

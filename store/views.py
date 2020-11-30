@@ -118,9 +118,10 @@ class AllFlights (View):
 class BookFlts (View):
     def get (self,request):
         flt_code = request.GET.get('flight')
-        flt_obj = Flights.objects.filter(code = flt_code)
+        cust_obj = User.objects.filter(id = request.user.id)
+        print(cust_obj)
         price = {}
-        return render(request, 'store/book.html', {'flt': flt_code, 'price': price})
+        return render(request, 'store/book.html', {'flt': flt_code, 'price': price, 'customer': cust_obj})
 
     def post (self,request):
         flt_code = request.POST.get('flight')
@@ -226,7 +227,7 @@ class BookFlts (View):
             
         
 
-        return render(request, 'store/book.html', {'passengers': passengers, 'num_pass': no_pass, 'type': type_flt, 'flt': flt_code, 'price': price})
+        return render(request, 'store/book.html', {'passengers': passengers, 'num_pass': no_pass, 'type': type_flt, 'flt': flt_code, 'price': price, 'customer': cust_obj})
 
 def history(request):
     csu_id = request.user.username #current user's id
@@ -251,31 +252,52 @@ class AllHotels (View):
         places = Location.objects.all()
         loc = request.POST.get('place')
         stdate = request.POST.get('date')
+        codate = request.POST.get('date2')
+        wifi = request.POST.get('wifi')
+        pets = request.POST.get('pets')
+        pool = request.POST.get('pool')
+        parking = request.POST.get('parking')
+        cust_rate = request.POST.get('rate')
+        htl = request.POST.get('htl')
+        print(htl)
         print(stdate)
-        if (stdate != ""):
-            stdate = datetime.datetime.strptime(stdate, "%Y-%m-%d")
-            date = stdate
-        else:
-            date = datetime.date.today()
-        print(stdate)
+        print(loc)
 
-        search_htls = Hotel.get_all_hotels().order_by('name')
+        search_htls = Hotel.get_all_hotels()
         location = request.POST.getlist('location[]')
         print(location)
-        air_htls = Hotel.objects.none()
-        for locs in location:
-            htl_name = Hotel.objects.filter(place = loc)
-            for name in htl_name:
-                h = Hotel.objects.filter(location = name.id)
-                # air_flts = (air_flts | Flights.objects.filter(airline = name.id)).distinct()
-                air_htls = air_htls | h
-        if (places == []):
-            air_htls = Hotel.get_all_hotels().order_by('name')
-        print(air_htls)
-        search_htls= search_htls & air_htls 
-        if (stdate != ""):
-            stdate = stdate.strftime("%Y-%m-%d")
-        return render (request,'store/hotels.html', {'hotels': search_htls, 'loc': loc, 'stdate': stdate, 'places': places})
+        # air_htls = Hotel.objects.none()
+        if (loc != ""):
+            plc = Location.objects.filter(place__icontains = loc)
+            for pl in plc:
+                if (plc):
+                    loc_htls = Hotel.objects.filter(place = pl.id)
+        else:
+            loc_htls = Hotel.get_all_hotels()
+
+        if(wifi != None):
+            wifi_htls = Hotel.objects.filter(wifi__icontains = "yes")
+        else:
+            wifi_htls = Hotel.objects.all()
+        if(pets != None):
+            pets_htls = Hotel.objects.filter(pets__icontains = "yes")
+        else:
+            pets_htls = Hotel.objects.all()
+        if(pool != None):
+            pool_htls = Hotel.objects.filter(pool__icontains = "yes")
+        else:
+            pool_htls = Hotel.objects.all()
+        if(parking != None):
+            parking_htls = Hotel.objects.filter(parking__icontains = "yes")
+        else:
+            parking_htls = Hotel.objects.all()
+
+        print(loc_htls)
+        search_htls = search_htls & loc_htls & wifi_htls & pool_htls & parking_htls & pets_htls
+        
+        return render (request,'store/hotels.html', {'hotels': search_htls, 'loc': loc, 'stdate': stdate, 'places': places, 'codate': codate})
+
+
 
 #---------------------------------------------------------------------------------------------------------------
 """
@@ -419,26 +441,28 @@ def profilepage(request):
 
 class BookHotel (View):
     def get (self,request):
-        htl_name = request.POST.get('hotel')
-        htl_obj = Hotel.objects.filter(name = htl_name) #change
+        htl_id = request.GET.get('hotel')
+        cust_obj = User.objects.filter(id = request.user.id)
+        print(htl_id)
         price = {}
-        return render(request, 'store/rooms.html', {'htl': htl_name, 'price': price})
+        return render(request, 'store/rooms.html', {'htl': htl_id, 'price': price, 'customer': cust_obj})
 
     def post (self,request):
-        htl_name = request.POST.get('hotel')
-        print(htl_name)
-        htl_obj = Hotel.objects.filter(name = htl_name) #change
+        htl_id = request.POST.get('hotel')
+        print(htl_id)
+        htl_obj = Hotel.objects.filter(id = htl_id) #change
         cust_obj = User.objects.filter(id = request.user.id)
         print(cust_obj)
+        print(htl_obj)
+        # print(htl_obj)
         cust_obj = list(cust_obj)
         guests = []
         rooms = []
-        #no_rooms = request.POST.get('select1')
-        no_rooms = 2
-        #no_rooms = int(no_rooms)
-        #no_guests = request.POST.get('select2')
-        no_guests = 2
-        #no_guests = int(no_guests)
+        no_guest = request.POST.get('select2')
+        no_guest = int(no_guest)
+        no_rooms = int(no_guest/2)
+        print(no_rooms)
+        print(no_guest)
         price = 0
         type_room = request.POST.get('type')
         for htl in htl_obj:
@@ -448,10 +472,11 @@ class BookHotel (View):
                 price = htl.price_spl * no_rooms
             if (type_room == "Suite"):
                 price = htl.price_suite * no_rooms
-        for i in range (0,no_rooms):
-            rooms.append(i+1)
-        for j in range (0,no_guests):
+        for i in range (0,no_guest):
             guests.append(i+1)
+        print(price)
+        # for j in range (0,no_guests):
+        #     guests.append(i+1)
 
         name_1 = request.POST.get('name_1')
         age_1 = request.POST.get('age_1')
@@ -472,51 +497,57 @@ class BookHotel (View):
         
 
         if(name_1):
-            htl_name = request.POST.get('hotel')
-            print(htl_name)
-            htl_obj = Hotel.objects.filter(name = htl_name)
-            print(htl_obj)
+        #     htl_name = request.POST.get('hotel')
+        #     print(htl_name)
+        #     htl_obj = Hotel.objects.filter(name = htl_name)
+        #     print(htl_obj)
             htl_objl = list(htl_obj)
             print(htl_obj)
             for htl in htl_objl:
                 for cust in cust_obj:
-                    room_save = Room(
-                    hotel= htl,
-                    user=cust,
-                    #customer=cust,
-                    gues1_name= name_1,
-                    gues1_age = age_1,
-                    gues1_gen = gender_1,
-                    gues2_name= name_2,
-                    gues2_age = age_2,
-                    gues2_gen = gender_2,
-                    gues3_name= name_3,
-                    gues3_age = age_3,
-                    gues3_gen = gender_3,
-                    gues4_name= name_4,
-                    gues4_age = age_4,
-                    gues4_gen = gender_4,
-                    gues5_name= name_5,
-                    gues5_age = age_5,
-                    gues5_gen = gender_5,
-            )
-                
-            room_save.save()
-            if (room_save):
+                    print("hi")
+                    room_det = Rooms(
+                        user = cust,
+                        hotel = htl,
+                        gues1_name = name_1,
+                        gues1_age = age_1,
+                        gues1_gen = gender_1,
+                        gues2_name = name_2,
+                        gues2_age = age_2,
+                        gues2_gen = gender_2,
+                        gues3_name = name_3,
+                        gues3_age = age_3,
+                        gues3_gen = gender_3,
+                        gues4_name = name_4,
+                        gues4_age = age_4,
+                        gues4_gen = gender_4,
+                        gues5_name = name_5,
+                        gues5_age = age_5,
+                        gues5_gen = gender_5
+                    )
+            room_det.save()
+            if (room_det):
                 if (type_room == "Standard"):
                     for htl in htl_obj: #change flt_obj
-                        num_stdrooms = htl.no_std -1
+                        num_std = htl.no_std
+                        num_std = num_std - no_rooms
+                        htl.no_std = num_std
                         htl.save()
                 if (type_room == "Special"):
-                    for flt in htl_obj:
-                        num_splrooms = htl.no_spl -1
+                    for htl in htl_obj:
+                        num_spl = htl.no_spl
+                        num_spl = num_spl - no_rooms
+                        htl.no_spl = num_spl
                         htl.save()
                 if (type_room == "Suite"):
-                    for flt in htl_obj:
-                        num_suites = htl.no_suites -1
-                        #num_rooms = num_rooms - no_std - no_spl - no_suites
+                    for htl in htl_obj:
+                        num_std = htl.no_std
+                        num_std = num_std -no_rooms
+                        htl.no_std = num_std
                         htl.save()
-                return render(request, 'store/roomdetails.html', {'rooms': room_save, 'hotel': htl_obj, 'type': type_room})
+                return render(request, 'store/roomdetails.html', {'rooms': room_det, 'hotel': htl_obj, 'type': type_room})
             
 
-        return render(request, 'store/rooms.html', {'guests': guests, 'type': type_room, 'price': price})
+        return render(request, 'store/rooms.html', {'htl': htl_id, 'type': type_room, 'num_guest': no_guest, 'price': price, 'guests': guests})
+
+#'type': type_room,

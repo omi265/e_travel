@@ -4,11 +4,11 @@
 <div class="container mt-4">
     <div class="jumbotron jumbotron-fluid" style="border-radius: 1.5rem; background-color: rgba(255, 255, 255, 0.253); color: rgba(255, 255, 255, 0.795);">
         <div class="container">
-            <h1 class="display-3 mb-5" style="letter-spacing: 5px;">Room Details</h1>
+            <h1 class="display-3 mb-5" style="letter-spacing: 5px;">Room Details {{num_guest}}</h1>
             <form action="/store/rooms" method="post">
                 {% csrf_token %}
                 <div class="form-group"> 
-                    <label for="exampleFormControlSelect1">Rooms</label>
+                    <!-- <label for="exampleFormControlSelect1">Rooms</label>
                     <select class="form-control" id="exampleFormControlSelect1" name="select1">
                         {% if no_rooms == 1 %}
                         <option selected >1</option>
@@ -50,8 +50,8 @@
                         {% else %}
                         <option>8</option>
                         {% endif %}
-                    </select>
-                    {% for i in no_rooms %}
+                    </select> -->
+                    
                         <div class="form-row">
                             <label for="type">Type</label>
                         </div>
@@ -74,36 +74,35 @@
                                 {% endif %}
                             </select>
                         </div>
-                    {% endfor %}
 
                 <label for="exampleFormControlSelect2">Guests</label>
                 <select class="form-control" id="exampleFormControlSelect2" name="select2">
-                        {% if no_guests == 1 %}
+                        {% if num_guest == 1 %}
                         <option selected >1</option>
                         {% else %}
                         <option>1</option>
                         {% endif %}
-                        {% if no_guests == 2 %}
+                        {% if num_guest == 2 %}
                         <option selected >2</option>
                         {% else %}
                         <option>2</option>
                         {% endif %}
-                        {% if no_guests == 3 %}
+                        {% if num_guest == 3 %}
                         <option selected >3</option>
                         {% else %}
                         <option>3</option>
                         {% endif %}
-                        {% if no_guests == 4 %}
+                        {% if num_guest == 4 %}
                         <option selected >4</option>
                         {% else %}
                         <option>4</option>
                         {% endif %}
-                        {% if no_guests == 5 %}
+                        {% if num_guest == 5 %}
                         <option selected >5</option>
                         {% else %}
                         <option>5</option>
                         {% endif %}
-                        {% if no_guests == 6 %}
+                        <!-- {% if no_guests == 6 %}
                         <option selected >6</option>
                         {% else %}
                         <option>6</option>
@@ -157,13 +156,13 @@
                         <option selected >16</option>
                         {% else %}
                         <option>16</option>
-                        {% endif %}
+                        {% endif %} -->
                     </select>
                   </div>
                  
                 <input type="text" name="hotel" hidden value="{{htl}}">
         
-                {% for guest in no_guests %}  
+                {% for guest in guests %}  
                 <label for="guests">Details for Guest {{guest}}</label>
                 <div class="form-group" id='guest'>
                     <div class="form-row">
