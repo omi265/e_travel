@@ -9,7 +9,7 @@ from django.views.generic.edit import UpdateView
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from .forms import Updatecustomerinfo, Updateuserinfo
-
+from .signals import create_custprofile, save_custprofile
 
 def index(request):
     return render(request, 'store/home.html')

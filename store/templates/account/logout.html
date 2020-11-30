@@ -5,6 +5,7 @@
 {% block head_title %}{% trans "Sign Out" %}{% endblock %}
 
 {% block page %}
+<p>  </p>
 <h1>{% trans "Sign Out" %}</h1>
 
 <p>{% trans 'Are you sure you want to sign out?' %}</p>
@@ -14,7 +15,14 @@
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
   {% endif %}
+  <form action="http://127.0.0.1:8000/store/" method="POST">
+      <input type="submit" value="sign out pls" />
+  </form>
   <button type="submit">{% trans 'Sign Out' %}</button>
+  <a href="/store/" class="btn btn-primary mx-auto">Sign out dear</a>
+  <form action="http://127.0.0.1:8000/store/" type="GET">
+    <input type="submit" value="sign tf out" />
+  </form>
 </form>
 
 
