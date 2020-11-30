@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Flights, Hotel, Ticket, Customer, create_or_update_user_profile, Rooms, Airlines, Location
+from .models import Flights, Hotel, Ticket, Customer, Rooms, Airlines, Location
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -9,7 +9,8 @@ from django.views.generic.edit import UpdateView
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from .forms import Updatecustomerinfo, Updateuserinfo
-from .signals import create_custprofile, save_custprofile
+from django.contrib import messages
+#from .signals import create_custprofile, save_custprofile
 
 def index(request):
     return render(request, 'store/home.html')
@@ -378,6 +379,7 @@ def profilepage(request):
 
         userupdate.save()
         customerupdate.save()
+        messages.success(request, f'Account Information Updated!')
 
         return redirect('/store/profile/')
 
