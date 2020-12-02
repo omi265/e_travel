@@ -2,7 +2,7 @@
 
 {% block page %}
 <div class="container-fluid mt-3">
-    <div class="card text-center">
+    <div class="card w-100 text-center" style="background-color: rgba(255, 255, 255, 0.253); color: rgba(255, 255, 255, 0.795);">
         <div class="card-body">
             <form action="/store/hotels" method="POST">
                 {% csrf_token %}
@@ -75,11 +75,11 @@
                         <div class="col-lg-8 mx-auto"> 
                             {% for htls in hotels %}
                             <div class="row mx-auto mb-3">
-                                <div class="card w-100 text-center">
+                                <div class="card w-100 text-center" style="background-color: rgba(255, 255, 255, 0.253); color: rgba(255, 255, 255, 0.795);">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-8"><h5 class="card-title float-left ml-2">{{htls.name}}</h5></div>
-                                            <div class="col"><h6 class="card-text mr-4">{{htls.stars}}</h6></div>
+                                            <div class="col"><h6 class="card-text float-right mr-2">{{htls.stars}}</h6></div>
                                         </div>
                                         <div class="row mx-auto mt-3">
                                             <p class="card-text mx-auto">{{htls.place}}</p> 

@@ -89,7 +89,8 @@
                 </div>
                 {% if customer %}
                 {% if price %}
-                <input type="submit" class="btn btn-primary float-right" value="${{price}}">
+                <input type="submit" class="btn btn-primary float-right">
+                <input type="submit" class="btn btn-primary float-right mr-2" value="{{price}}">
                 {% else %}
                 <input type="submit" class="btn btn-primary float-right">
                 {% endif %}

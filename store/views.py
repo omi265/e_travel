@@ -237,8 +237,13 @@ def history(request):
     print(cust_obj)
     # cust_obj = Customer.objects.filter(id = 1)
     tickets = Ticket.get_by_user(cust_obj)
-    return render(request, 'store/history.html', {'tickets': tickets})
+    hotels = Rooms.get_by_user(cust_obj)
+    return render(request, 'store/history.html', {'tickets': tickets, 'hotels': hotels})
 
+
+def flt_hotels(request):
+    htl_loc = request.GET.get ('loc')
+    return render(request, 'store/rec.html')
 # def bookFlts(request):
 #     return render(request, 'store/book.html')
 
@@ -463,6 +468,8 @@ class BookHotel (View):
         no_guest = request.POST.get('select2')
         no_guest = int(no_guest)
         no_rooms = int(no_guest/2)
+        if (no_rooms == 0):
+            no_rooms = 1
         print(no_rooms)
         print(no_guest)
         price = 0
@@ -511,6 +518,7 @@ class BookHotel (View):
                     room_det = Rooms(
                         user = cust,
                         hotel = htl,
+                        no_rooms = no_rooms,
                         gues1_name = name_1,
                         gues1_age = age_1,
                         gues1_gen = gender_1,
@@ -547,9 +555,9 @@ class BookHotel (View):
                         num_std = num_std -no_rooms
                         htl.no_std = num_std
                         htl.save()
-                return render(request, 'store/roomdetails.html', {'rooms': room_det, 'hotel': htl_obj, 'type': type_room})
+                return render(request, 'store/roomdetails.html', {'rooms': room_det, 'hotel': htl_obj, 'type': type_room, 'price': price})
             
 
-        return render(request, 'store/rooms.html', {'htl': htl_id, 'type': type_room, 'num_guest': no_guest, 'price': price, 'guests': guests})
+        return render(request, 'store/rooms.html', {'htl': htl_id, 'type': type_room, 'num_guest': no_guest, 'price': price, 'guests': guests, 'rooms': no_rooms})
 
 #'type': type_room,

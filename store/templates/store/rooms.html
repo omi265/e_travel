@@ -4,7 +4,7 @@
 <div class="container mt-4">
     <div class="jumbotron jumbotron-fluid" style="border-radius: 1.5rem; background-color: rgba(255, 255, 255, 0.253); color: rgba(255, 255, 255, 0.795);">
         <div class="container">
-            <h1 class="display-3 mb-5" style="letter-spacing: 5px;">Room Details {{num_guest}}</h1>
+            <h1 class="display-3 mb-5" style="letter-spacing: 5px;">Room Details - </h1>
             <form action="/store/rooms" method="post">
                 {% csrf_token %}
                 <div class="form-group"> 
@@ -159,7 +159,9 @@
                         {% endif %} -->
                     </select>
                   </div>
-                 
+                  {% if rooms %}
+                <p class="card-text">Number of rooms allocated = {{rooms}}</p> 
+                {% endif %}
                 <input type="text" name="hotel" hidden value="{{htl}}">
         
                 {% for guest in guests %}  
@@ -186,8 +188,9 @@
                 </div>
                 {% endfor %}
                 
-                {% if price_std %}
-                <input type="submit" class="btn btn-primary float-right" value="Rs.{{price}}">
+                {% if price %}
+                <input type="submit" class="btn btn-primary float-right">
+                <input type="submit" class="btn btn-primary float-right mr-2" value="{{price}}">
                 {% else %}
                 <input type="submit" class="btn btn-primary float-right">
                 {% endif %}

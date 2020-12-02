@@ -5,6 +5,8 @@
     <div class="jumbotron jumbotron-fluid" style="border-radius: 1.5rem; background-color: rgba(255, 255, 255, 0.253); color: rgba(255, 255, 255, 0.795);">
         <div class="container">
             <h1 class="display-3 mb-5">Your Bookings</h1>
+            {% if tickets %}
+            <h3 class="mb-3"> Flights - </h3>
             {% for flt in tickets %}
             <div class="card w-100 text-center mb-4" style="color: rgb(46, 46, 46);">
                 <div class="card-body">
@@ -44,4 +46,50 @@
                 </div>
             </div>
             {% endfor %}
+            {% endif %}
+            {% if hotels %}
+            <h3 class="mb-3 mt-3"> Hotels - </h3>
+            {% for htl in hotels %}
+            <div class="card w-100 text-center mb-4" style="color: rgb(46, 46, 46);">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-8"><h5 class="card-title float-left ml-2">{{htl.hotel.name}}</h5></div>
+                        <div class="col"><h6 class="card-text mr-4">{{htl.hotel.place}}</h6></div>
+                        <div class="col"><h6 class="card-text mr-4">{{htl.hotel.address}}</h6></div>
+                    </div>
+                    <div class="row mt-3">
+                        <h6 class="card-text mx-auto">Rooms - {{htl.no_rooms}} </h6> 
+                    </div>
+                    {% if htl.gues1_name %}
+                    <div class="row mx-auto mt-5">
+                        <p class="card-text mx-auto">{{htl.gues1_name}}, {{htl.gues1_age}}, {{htl.gues1_gen}}</p> 
+                    </div>
+                    {% endif %}
+                    {% if htl.gues2_name %}
+                    <div class="row mx-auto mt-3">
+                        <p class="card-text mx-auto">{{htl.gues2_name}}, {{htl.gues2_age}}, {{htl.gues2_gen}}</p> 
+                    </div>
+                    {% endif %}
+                    {% if htl.gues3_name %}
+                    <div class="row mx-auto mt-3">
+                        <p class="card-text mx-auto">{{htl.gues3_name}}, {{htl.gues3_age}}, {{htl.gues3_gen}}</p> 
+                    </div>
+                    {% endif %}
+                    {% if htl.gues4_name %}
+                    <div class="row mx-auto mt-3">
+                        <p class="card-text mx-auto">{{htl.gues4_name}}, {{htl.gues4_age}}, {{htl.gues4_gen}}</p> 
+                    </div>
+                    {% endif %}
+                    {% if htl.gues5_name %}
+                    <div class="row mx-auto mt-3">
+                        <p class="card-text mx-auto">{{htl.gues5_name}}, {{htl.gues5_age}}, {{htl.gues5_gen}}</p> 
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}
