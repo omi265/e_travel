@@ -243,16 +243,23 @@ def history(request):
 
 def flt_hotels(request):
     htl_loc = request.GET.get ('loc')
+    print(htl_loc)
     return render(request, 'store/rec.html')
 # def bookFlts(request):
 #     return render(request, 'store/book.html')
 
 class AllHotels (View):
     def get (self,request):
-        hotels = Hotel.get_all_hotels().order_by('name')
-        places = Location.objects.all()
-        print(hotels)
-        return render(request, 'store/hotels.html', {'hotels' : hotels, 'location': places})
+        htl_loc = request.GET.get ('loc')
+        if (htl_loc == None):
+            htls = Hotel.get_all_hotels().order_by('name')
+        else:
+            plc = Location.objects.filter(place__icontains = htl_loc)
+            for pl in plc:
+                if (plc):
+                    htls = Hotel.objects.filter(place = pl.id)
+
+        return render(request, 'store/hotels.html', {'hotels' : htls, 'loc': htl_loc})
 
     def post (self,request):
         places = Location.objects.all()
