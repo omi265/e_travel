@@ -1,1 +1,1 @@
-web : gunicorn e_travel.wsgi --log-file -
+web: gunicorn e_tavel.wsgi
