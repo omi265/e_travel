@@ -497,8 +497,8 @@ class BookHotel (View):
                 return render(request, 'store/roomdetails.html', {'rooms': room_det, 'hotel': htl_obj, 'type': type_room, 'price': price, 'date': date})
             
 
-<<<<<<< HEAD
-        return render(request, 'store/rooms.html', {'guests': guests, 'type': type_room, 'price': price})
+#        return render(request, 'store/rooms.html', {'guests': guests, 'type': type_room, 'price': price})
+        return render(request, 'store/rooms.html', {'htl': htl_id, 'type': type_room, 'num_guest': no_guest, 'price': price, 'guests': guests, 'rooms': no_rooms, 'date': date})
 
 
 @permission_required('admin.can_add_log_entry')
@@ -544,8 +544,6 @@ def flights_upload(request):
     context={}
     return render(request, template, context)
 
-=======
-        return render(request, 'store/rooms.html', {'htl': htl_id, 'type': type_room, 'num_guest': no_guest, 'price': price, 'guests': guests, 'rooms': no_rooms, 'date': date})
+ #       return render(request, 'store/rooms.html', {'htl': htl_id, 'type': type_room, 'num_guest': no_guest, 'price': price, 'guests': guests, 'rooms': no_rooms, 'date': date})
 
 #'type': type_room,
->>>>>>> a9e874563429567c49186f725f967f7452cc92e8
