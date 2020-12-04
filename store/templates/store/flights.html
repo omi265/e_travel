@@ -176,6 +176,7 @@
                                         <p class="card-text mx-auto">On Board Wifi - {{flt.obw}}</p>
                                         <p class="card-text mx-auto">Baggage Limit - {{flt.baggage_lim}}</p>
                                         <p class="card-text mx-auto">Airport Name - {{flt.apt_name}}</p>
+                                        <p class="card-text mx-auto">Stop - {{flt.stop_name}}</p>
                                     </div>
                                     <div class="row mx-auto mt-5" style="color: rgb(128, 128, 128);">
                                         {% if flt.nsle %}
@@ -188,7 +189,7 @@
                                         <p class="card-text mx-auto">Seats in First Class - {{flt.nslf}}</p>
                                         {% endif %}
                                     </div>
-                                    {% if flt.nsle %}
+                                    {% if flt.ns %}
                                     <a class="btn btn-outline-primary float-right mt-3" href="/store/book?flight={{flt.code}}">Book Now !</a>
                                     <!-- <input type="submit" value="Book Now !" class="btn btn-outline-primary float-right mt-3"> -->
                                     {% else %}

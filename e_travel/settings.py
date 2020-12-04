@@ -25,7 +25,7 @@ SECRET_KEY = '!6*p-!@!(_w)zl#2gq8as2pcqf^)r(j-et^huon9=e7oe-oe$s'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['radiant-cove-49769.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -136,6 +137,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/store/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 LOGIN_REDIRECT_URL = '/store/'
 LOGOUT_REDIRECT_URL = '/store/'

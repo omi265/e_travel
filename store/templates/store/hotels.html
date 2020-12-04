@@ -2,172 +2,187 @@
 
 {% block page %}
 <div class="container-fluid mt-3">
-    <div class="card text-center">
+    <div class="card w-100 text-center" style="background-color: rgba(255, 255, 255, 0.253); color: rgba(255, 255, 255, 0.795);">
         <div class="card-body">
             <form action="/store/hotels" method="POST">
                 {% csrf_token %}
+                <!-- <div class="form-row">
+                    <label for="place">City</label>
+                </div> -->
                 <div class="form-row">
                     <div class="col-lg-4">
-                        {% if lochotel %}
-                        <input type="text" name='place' value="{{lochotel}}" class="form-control" placeholder="Location">
+                        <label for="place" class="float-left">City</label>
+                        {% if loc %}
+                        <input type="text" name='place' id='place' value="{{loc}}" class="form-control">
                         {% else %}
-                        <input type="text" name='place' class="form-control" placeholder="Location">
+                        <input type="text" name='place' class="form-control">
                         {% endif %}
                     </div>
                     <div class="col-lg-3">
-                        <input type="date" name='date' value="{{stdate}}" class="form-control">
+                        <label for="date" class="float-left">Check-In Date</label>
+                        <input type="date" name='date' id='date' value="{{stdate}}" class="form-control" placeholder="Check in Date">
+                    </div>
+                    <div class="col-lg-3">
+                        <label for="date2" class="float-left">Check-Out Date</label>
+                        <input type="date" name='date2' id='date2' value="{{codate}}" class="form-control" placeholder="Check in Date">
                     </div>
                     <div class="col">
-                        <input type="submit" value="Search" class="btn btn-primary float-right">
+                        <input type="submit" value="Search" class="btn btn-primary float-right mt-3">
                     </div>
                 </div>
-            </form>
         </div>
       </div>
 </div>
 
-<!--<div class="container-fluid mt-3">
-        <div class="row">
-        <div class="col-lg-3 mx-auto">
-            <div class="list-group">
-            <a href="/store/hotels" class="list-group-item list-group-item-action list-group-item-dark">All</a>
-            <a href="/store/hotels" class="list-group-item list-group-item-action list-group-item-dark">1</a>
-            <a href="/store/hotels" class="list-group-item list-group-item-action list-group-item-dark">2</a>
-            <form>
-                <div class="form-group">
-                <label for="formControlRange">Example Range input</label>
-                <input type="range" class="form-control-range" id="formControlRange">
-                </div>
-            </form>
-            </div>
-        </div>
-        </div>
-    </div>
--->
-
 <div class="container-fluid mt-3">
     <div class="row">
-            <div class="col-lg-4 mx-auto">
-                <div class="card text-center" style="background-color: rgba(255, 255, 255, 0.253); color: rgba(37, 36, 36, 0.795);">
-                    <div class="card-body" ><!--
-                        <div class="form-row mt-4 ml-2">
-                            <div class="form-check form-check-inline mx-auto">
-                                <input class="form-check-input" type="checkbox" name='wifi' value="True" id="inlineCheckbox1" value="option21">
-                                <label class="form-check-label" for="inlineCheckbox1">WiFi</label>
-                            </div>
-                        </div>-->
-                        <div class="form-row">
-                            <p class="mt-5">Hotels:</p>
-                        <div class="col-lg-8 mx-auto">
-                            {% for htls in hotels %}
-                            <div class="row mx-auto mb-3">
-                                <div class="card w-100 text-center">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-8"><h5 class="card-title float-left ml-2">{{htls.name}}</h5></div>
-                                            <div class="col"><h6 class="card-text mr-4">{{htl.stars}}</h6></div>
+        <div class="col-lg-4 mx-auto">
+            <div class="card text-center" style="background-color: rgba(255, 255, 255, 0.253); color: rgba(255, 255, 255, 0.795);">
+                <div class="card-body" >
+                    <div class="form-row mt-4 ml-2">
+                        <div class="form-check form-check-inline float-left">
+                            <input class="form-check-input" type="checkbox" name='wifi' value="True" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">Free WiFi</label>
+                        </div>
+                    </div>
+                    <div class="form-row mt-4 ml-2">
+                        <div class="form-check form-check-inline float-left">
+                            <input class="form-check-input" type="checkbox" name='pets' value="True" id="inlineCheckbox3" value="option3">
+                            <label class="form-check-label" for="inlineCheckbox3">Pets Allowed</label>
+                        </div>
+                    </div>
+                    <div class="form-row mt-4 ml-2">
+                        <div class="form-check form-check-inline float-left">
+                            <input class="form-check-input" type="checkbox" name='pool' value="True" id="inlineCheckbox3" value="option3">
+                            <label class="form-check-label" for="inlineCheckbox3">Pool</label>
+                        </div>
+                    </div>
+                    <div class="form-row mt-4 ml-2">
+                        <div class="form-check form-check-inline float-left">
+                            <input class="form-check-input" type="checkbox" name='parking' value="True" id="inlineCheckbox3" value="option3">
+                            <label class="form-check-label" for="inlineCheckbox3">Parking</label>
+                        </div>
+                    </div>    
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-8 mx-auto"> 
+            {% for htls in hotels %}
+            <div class="row mx-auto mb-3">
+                <div class="card w-100 text-center" style="background-color: rgba(255, 255, 255, 0.253); color: rgba(255, 255, 255, 0.795);">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-8"><h5 class="card-title float-left ml-2">{{htls.name}}</h5></div>
+                            <div class="col"><h6 class="card-text float-right mr-2">{{htls.stars}}</h6></div>
+                        </div>
+                        <div class="row mx-auto mt-3">
+                            <p class="card-text mx-auto">{{htls.place}}</p> 
+                            <h6 class="card-text mx-auto">Average price per night: {{ htls.price_std }}</h6>
+                        </div>
+                        <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#hotel_{{htls.id}}">
+                            Book Now!
+                        </button>
+                        <div class="modal fade" id="hotel_{{htls.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="color: rgb(19, 19, 19);">
+
+                            <!-- Vertically centered modal -->
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModelLabel">Room Details</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="m-2 p-2">
+                                            <div class="row">
+                                                {% if htls.img_1 %}
+                                                <div class="w3-content w3-display-container">
+                                                    <img class="mySlides" src="{{htls.img_1}}" style="width:100%">
+                                                    <img class="mySlides" src="{{htls.img_2}}" style="width:100%">
+                                                  
+                                                    <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+                                                    <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="row">
+                                                <h5 class="card-title mx-auto mb-3">{{htls.name}} - {{htls.place}}</h5>
+                                            </div>
+                                            <div class="row">
+                                                <h6 class="card-text mx-auto mb-3">{{htls.stars}}</h6>
+                                            </div>
+                                            <div class="row mx-auto mt-3">
+                                                <p class="card-text mx-auto">Pets - {{htls.pets}}</p>
+                                                <p class="card-text mx-auto">Wifi - {{htls.wifi}}</p>
+                                                <p class="card-text mx-auto">Parking - {{htls.parking}}</p>
+                                                <p class="card-text mx-auto">Pool - {{htls.pool}}</p>
+                                            </div>
+                                            <div class="row mx-auto mt-5 mb-5" style="color: rgb(34, 31, 31);">
+                                                <p class="card-text mx-auto">Price of Standard rooms - {{htls.price_std}}</p>
+                                                <p class="card-text mx-auto">Price of Special rooms - {{htls.price_spl}}</p>
+                                                <p class="card-text mx-auto">Price of Suites - {{htls.price_suite}}</p>
+                                            </div>
+                                            {% for vis in visited %}
+                                            {% if vis.hotel.id == htls.id %}
+                                            {% if forloop.counter0 == 0 %}
+                                            <form action="/store/rate" method="POST">
+                                                {% csrf_token %}
+                                                <input type="text" name='htl' hidden value="{{htls.id}}">
+                                                <div class="input-rating">
+                                                    <strong class="text-uppercase">Your rating:</strong>
+                                                    <div class="stars">
+                                                      <input type="radio" id="star5" name="rate" value="1" /><label for="star5">1</label>
+                                                      <input type="radio" id="star4" name="rate" value="2" /><label for="star4">2</label>
+                                                      <input type="radio" id="star3" name="rate" value="3" /><label for="star3">3</label>
+                                                      <input type="radio" id="star2" name="rate" value="4" /><label for="star2">4</label>
+                                                      <input type="radio" id="star1" name="rate" value="5" /><label for="star1">5</label>
+                                                    </div>
+                                                  </div>
+                                                  <input type="submit" class="btn btn-primary float-right mb-3" value="Submit rating">  
+                                            </form>
+                                            {% endif %}
+                                            {% endif %}
+                                            {% endfor %}
+                                            <a class="btn btn-outline-primary float-right mr-3" href="/store/rooms?hotel={{htls.id}}&date={{codate|date:'Y-m-d'}}">Book Now!</a>
+                                            <!-- <input type="submit" value="Book Now !" class="btn btn-outline-primary float-right mt-3"> -->
+                                            
+                                            <!--<input type="submit" value="No rooms left" disabled class="btn btn-outline-danger float-right mt-3">
+                                            -->
                                         </div>
-                                        <div class="row mx-auto mt-3">
-                                            <p class="card-text mx-auto">{{htl.place}}</p> 
-                                            <h6 class="card-text mx-auto">Average price per night: {{ htl.price_std }}</h6>
-                                        </div>
-                                        <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal">
-                                            Book Now!
-                                        </button>
+                                    </div>
+                                    <div class="modal-footer">
                                     </div>
                                 </div>
                             </div>
-                            {% endfor %}
-                        </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-</div>
-<!--
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Book Now!</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body">
-                <div class="m-2 p-2">
-                    <form action="/store/rooms" method="post">
-                        {% csrf_token %}
-                        <div class="form-group">
-                          <label for="">Rooms </label>
-                          <input type="number" name="no_rooms" value="{{htl.no_rooms}}" class="form-control" aria-describedby="helpId">
-                          <small id="helpId" class="text-muted">Enter the number of rooms (max:8)</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="">Guests </label>
-                            <input type="number" name="no_guests" value="{{htl.no_guests}}" class="form-control" aria-describedby="helpId">
-                            <small id="helpId" class="text-muted">Enter the number of guests(max:16)</small>
-                        </div>
-                        <input type="submit" class="btn btn-outline-primary float-right">
-                    </form>
-                </div>
-            </div>
-            <div class="modal-footer"></div>
-        </div>
-    </div>
-</div>
--->
-<!------------------------------------------------------------------------------------------------------------------------------------------------->
-<!-- Modal -->
-<!--<div class="modal fade" id="{{htl.name}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="color: rgb(19, 19, 19);">-->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="color: rgb(19, 19, 19);">
- 
-    <!-- Vertically centered modal -->
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModelLabel">Room Details</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body">
-                <div class="m-2 p-2">
-                    <div class="row">
-                        <h5 class="card-title mx-auto mb-5">{{htl.place}}</h5>
-                    </div>
-                    <div class="row">
-                        <h6 class="card-text mx-auto mb-5">{{htl.stars}}</h6>
-                    </div>
-                    <div class="row mx-auto mt-5">
-                        <p class="card-text mx-auto">Pets - {{htl.pets}}</p>
-                        <p class="card-text mx-auto">Wifi - {{htl.wifi}}</p>
-                        <p class="card-text mx-auto">Parking - {{htl.parking}}</p>
-                        <p class="card-text mx-auto">Pool - {{htl.pool}}</p>
-                    </div>
-                    <div class="row mx-auto mt-5" style="color: rgb(34, 31, 31);">
-                        <p class="card-text mx-auto">Price of Standard rooms - {{htl.price_std}}</p>
-                        <p class="card-text mx-auto">Price of Special rooms - {{htl.price_spl}}</p>
-                        <p class="card-text mx-auto">Price of Suites - {{htl.price_suite}}</p>
-
-                    </div>
-                    <!--{% if htl.no_std %}-->
-                    <a class="btn btn-outline-primary float-right mt-3" href="/store/rooms?hotel=exampleModal">Book Now!</a>
-                    <!-- <input type="submit" value="Book Now !" class="btn btn-outline-primary float-right mt-3"> -->
-                    <!--{% else %}-->
-                    <!--<input type="submit" value="No rooms left" disabled class="btn btn-outline-danger float-right mt-3">
-                    {% endif %}-->
-                </div>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
-    </div>
+            </div> 
+            {% endfor %}
+        </div>             
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-
+<script>
+    var slideIndex = 1;
+    showDivs(slideIndex);
+    
+    function plusDivs(n) {
+      showDivs(slideIndex += n);
+    }
+    
+    function showDivs(n) {
+      var i;
+      var x = document.getElementsByClassName("mySlides");
+      if (n > x.length) {slideIndex = 1}
+      if (n < 1) {slideIndex = x.length}
+      for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";  
+      }
+      x[slideIndex-1].style.display = "block";  
+    }
+</script>
 
 {% endblock %}
