@@ -126,6 +126,7 @@
                                             </div>
                                             {% for vis in visited %}
                                             {% if vis.hotel.id == htls.id %}
+                                            {% if forloop.counter0 == 0 %}
                                             <form action="/store/rate" method="POST">
                                                 {% csrf_token %}
                                                 <input type="text" name='htl' hidden value="{{htls.id}}">
@@ -142,8 +143,9 @@
                                                   <input type="submit" class="btn btn-primary float-right mb-3" value="Submit rating">  
                                             </form>
                                             {% endif %}
+                                            {% endif %}
                                             {% endfor %}
-                                            <a class="btn btn-outline-primary float-right mr-3" href="/store/rooms?hotel={{htls.id}}">Book Now!</a>
+                                            <a class="btn btn-outline-primary float-right mr-3" href="/store/rooms?hotel={{htls.id}}&date={{codate|date:'Y-m-d'}}">Book Now!</a>
                                             <!-- <input type="submit" value="Book Now !" class="btn btn-outline-primary float-right mt-3"> -->
                                             
                                             <!--<input type="submit" value="No rooms left" disabled class="btn btn-outline-danger float-right mt-3">

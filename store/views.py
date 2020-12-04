@@ -17,9 +17,17 @@ def index(request):
 
 class AllFlights (View):
     def get (self,request):
-        flights = Flights.get_all_flights().order_by('time')
+        date = request.GET.get('date')
+        print(type(date))
+        date = datetime.datetime.strptime(date, "%Y-%m-%d")
+        print(type(date))
+        if (date == None):
+            flights = Flights.get_all_flights().order_by('time')
+        else:
+            flights = Flights.objects.filter(time__range=[date, "2023-01-31"]).order_by('time')
+        
         lines = Airlines.objects.all()
-        return render(request, 'store/flights.html', {'flights' : flights, 'airlines': lines})
+        return render(request, 'store/flights.html', {'flights' : flights, 'airlines': lines, 'tdate': date})
     def post (self,request):
         lines = Airlines.objects.all()
         fromloc = request.POST.get('from')
@@ -255,8 +263,8 @@ class AllHotels (View):
                     htls = Hotel.objects.filter(place = pl.id)
         cust_obj = User.objects.filter(id = request.user.id)
         hotels = Rooms.get_by_user(cust_obj)
-
-        return render(request, 'store/hotels.html', {'hotels' : htls, 'loc': htl_loc, 'visited': hotels})
+        codate = datetime.date.today()
+        return render(request, 'store/hotels.html', {'hotels' : htls, 'loc': htl_loc, 'visited': hotels, 'codate':codate})
 
     def post (self,request):
         places = Location.objects.all()
@@ -270,7 +278,7 @@ class AllHotels (View):
         cust_rate = request.POST.get('rate')
         htl = request.POST.get('htl')
         print(htl)
-        print(stdate)
+        print(codate)
         print(loc)
 
         search_htls = Hotel.get_all_hotels()
@@ -373,13 +381,16 @@ def profilepage(request):
 class BookHotel (View):
     def get (self,request):
         htl_id = request.GET.get('hotel')
+        date = request.GET.get('date')
+        print(date)
         cust_obj = User.objects.filter(id = request.user.id)
         print(htl_id)
         price = {}
-        return render(request, 'store/rooms.html', {'htl': htl_id, 'price': price, 'customer': cust_obj})
+        return render(request, 'store/rooms.html', {'htl': htl_id, 'customer': cust_obj, 'price': price, 'date': date})
 
     def post (self,request):
         htl_id = request.POST.get('hotel')
+        date = request.POST.get('date')
         print(htl_id)
         htl_obj = Hotel.objects.filter(id = htl_id) #change
         cust_obj = User.objects.filter(id = request.user.id)
@@ -479,9 +490,9 @@ class BookHotel (View):
                         num_std = num_std -no_rooms
                         htl.no_std = num_std
                         htl.save()
-                return render(request, 'store/roomdetails.html', {'rooms': room_det, 'hotel': htl_obj, 'type': type_room, 'price': price})
+                return render(request, 'store/roomdetails.html', {'rooms': room_det, 'hotel': htl_obj, 'type': type_room, 'price': price, 'date': date})
             
 
-        return render(request, 'store/rooms.html', {'htl': htl_id, 'type': type_room, 'num_guest': no_guest, 'price': price, 'guests': guests, 'rooms': no_rooms})
+        return render(request, 'store/rooms.html', {'htl': htl_id, 'type': type_room, 'num_guest': no_guest, 'price': price, 'guests': guests, 'rooms': no_rooms, 'date': date})
 
 #'type': type_room,
