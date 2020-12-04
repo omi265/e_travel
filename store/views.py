@@ -497,6 +497,10 @@ class BookHotel (View):
                 return render(request, 'store/roomdetails.html', {'rooms': room_det, 'hotel': htl_obj, 'type': type_room, 'price': price, 'date': date})
             
 
+<<<<<<< HEAD
+=======
+#        return render(request, 'store/rooms.html', {'guests': guests, 'type': type_room, 'price': price})
+>>>>>>> ff5eb0479cf8c0cf9b0a67b6514e2e3e2b10454b
         return render(request, 'store/rooms.html', {'htl': htl_id, 'type': type_room, 'num_guest': no_guest, 'price': price, 'guests': guests, 'rooms': no_rooms, 'date': date})
 
 
@@ -543,4 +547,9 @@ def flights_upload(request):
     context={}
     return render(request, template, context)
 
+<<<<<<< HEAD
+=======
+ #       return render(request, 'store/rooms.html', {'htl': htl_id, 'type': type_room, 'num_guest': no_guest, 'price': price, 'guests': guests, 'rooms': no_rooms, 'date': date})
+
+>>>>>>> ff5eb0479cf8c0cf9b0a67b6514e2e3e2b10454b
 #'type': type_room,
