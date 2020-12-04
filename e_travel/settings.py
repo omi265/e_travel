@@ -142,5 +142,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 LOGIN_REDIRECT_URL = '/store/'
 LOGOUT_REDIRECT_URL = '/store/'
 
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 #CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

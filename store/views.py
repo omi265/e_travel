@@ -9,6 +9,7 @@ from django.views.generic.edit import UpdateView
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from .forms import Updatecustomerinfo, Updateuserinfo
+from django.core.paginator import Paginator
 #csv
 import csv, io
 from django.contrib.auth.decorators import permission_required 
@@ -22,17 +23,28 @@ def index(request):
 class AllFlights (View):
     def get (self,request):
         date = request.GET.get('date')
+        loc = request.GET.get('loc')
         print(type(date))
-        
+        if (loc == None):
+            loc_flts = Flights.get_all_flights().order_by('time')
+        else:
+            loc_flts = Flights.objects.filter(fromdest__icontains = loc).order_by('time')
         print(type(date))
         if (date == None):
             flights = Flights.get_all_flights().order_by('time')
         else:
             date = datetime.datetime.strptime(date, "%Y-%m-%d")
             flights = Flights.objects.filter(time__range=[date, "2023-01-31"]).order_by('time')
-        
+        flights = flights & loc_flts
+        p = Paginator(flights, 6)
+        page_num = request.GET.get('page', 1)
+        page = p.page(page_num)
+        if (loc == None):
+            no_pages = p.num_pages
+        else:
+            no_pages = False 
         lines = Airlines.objects.all()
-        return render(request, 'store/flights.html', {'flights' : flights, 'airlines': lines, 'tdate': date})
+        return render(request, 'store/flights.html', {'flights' : page, 'airlines': lines, 'tdate': date, 'pages': no_pages, 'page_num': page_num})
     def post (self,request):
         lines = Airlines.objects.all()
         fromloc = request.POST.get('from')
@@ -105,7 +117,6 @@ class AllFlights (View):
         else:
             n_flts = Flights.get_all_flights().order_by('time')
 
-
         if (fromloc != None or toloc != None or tdate != None):
             frm_flts = Flights.objects.filter(fromdest__icontains = fromloc).order_by('time')
             to_flts = Flights.objects.filter(todest__icontains = toloc).order_by('time')
@@ -120,8 +131,11 @@ class AllFlights (View):
         search_flts= search_flts & non_flts & src_flts & em_flts & m_flts & a_flts & n_flts & air_flts
         if (tdate != ""):
             tdate = tdate.strftime("%Y-%m-%d")
-        return render (request,'store/flights.html', {'flights': search_flts, 'fromloc': fromloc, 'toloc': toloc, 'tdate': tdate, 'airlines': lines})
-
+        # p = Paginator(search_flts, 6)
+        # page_num = request.GET.get('page', 1)
+        # page = p.page(page_num)
+        # no_pages = p.num_pages
+        return render (request,'store/flights.html', {'flights': search_flts, 'fromloc': fromloc, 'toloc': toloc, 'tdate': tdate, 'airlines': lines, 'pages': False})
 
 
 class BookFlts (View):
@@ -269,7 +283,14 @@ class AllHotels (View):
         cust_obj = User.objects.filter(id = request.user.id)
         hotels = Rooms.get_by_user(cust_obj)
         codate = datetime.date.today()
-        return render(request, 'store/hotels.html', {'hotels' : htls, 'loc': htl_loc, 'visited': hotels, 'codate':codate})
+        p = Paginator(htls, 6)
+        page_num = request.GET.get('page', 1)
+        page = p.page(page_num)
+        if (htl_loc == None):
+            no_pages = p.num_pages
+        else:
+            no_pages = False
+        return render(request, 'store/hotels.html', {'hotels' : page, 'loc': htl_loc, 'visited': hotels, 'codate':codate, 'pages': no_pages, 'page_num': page_num})
 
     def post (self,request):
         places = Location.objects.all()
@@ -285,7 +306,7 @@ class AllHotels (View):
         print(htl)
         print(codate)
         print(loc)
-
+        loc_htls = Hotel.objects.none()
         search_htls = Hotel.get_all_hotels()
         location = request.POST.getlist('location[]')
         print(location)
@@ -295,6 +316,7 @@ class AllHotels (View):
             for pl in plc:
                 if (plc):
                     loc_htls = Hotel.objects.filter(place = pl.id)
+                
         else:
             loc_htls = Hotel.get_all_hotels()
 
@@ -315,12 +337,13 @@ class AllHotels (View):
         else:
             parking_htls = Hotel.objects.all()
 
-        print(loc_htls)
+        # if (loc_htls == []):
+        #     loc_htls = Hotel.objects.none()
         search_htls = search_htls & loc_htls & wifi_htls & pool_htls & parking_htls & pets_htls
         cust_obj = User.objects.filter(id = request.user.id)
         hotels = Rooms.get_by_user(cust_obj)
         
-        return render (request,'store/hotels.html', {'hotels': search_htls, 'loc': loc, 'stdate': stdate, 'places': places, 'codate': codate, 'visited': hotels})
+        return render (request,'store/hotels.html', {'hotels': search_htls, 'loc': loc, 'stdate': stdate, 'places': places, 'codate': codate, 'visited': hotels, 'pages': False})
 
 def rate(request):
     rating = request.POST.get('rate')

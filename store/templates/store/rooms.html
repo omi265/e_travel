@@ -163,7 +163,7 @@
                 <p class="card-text">Number of rooms allocated = {{rooms}}</p> 
                 {% endif %}
                 <input type="text" name="hotel" hidden value="{{htl}}">
-                <input type="text" name="date" hidden value="{{date}}">
+                <input type="date" name="date" class="form-control mb-3" value="{{date}}">
         
                 {% for guest in guests %}  
                 <label for="guests">Details for Guest {{guest}}</label>
