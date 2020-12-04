@@ -497,8 +497,7 @@ class BookHotel (View):
                 return render(request, 'store/roomdetails.html', {'rooms': room_det, 'hotel': htl_obj, 'type': type_room, 'price': price, 'date': date})
             
 
-<<<<<<< HEAD
-        return render(request, 'store/rooms.html', {'guests': guests, 'type': type_room, 'price': price})
+        return render(request, 'store/rooms.html', {'htl': htl_id, 'type': type_room, 'num_guest': no_guest, 'price': price, 'guests': guests, 'rooms': no_rooms, 'date': date})
 
 
 @permission_required('admin.can_add_log_entry')
@@ -520,32 +519,28 @@ def flights_upload(request):
 
     for column in csv.reader(io_string, delimiter = ','):
         _, created = Flights.objects.update_or_create(
-           #id = column[0],
-           airline = column[1],
-           code = column[2],
-           duration = column[3],
-           price_e = column[4],
-           price_b = column[5],
-           price_fc = column[6],
-           time = column[7],
-           fromdest = column[8],
-           todest = column[9],
-           ns = column[10],
-           nsle = column[11],
-           nslb = column[12],
-           nslf = column[13],
-           obw = column[14],
-           baggage_lim = column[15],
-           apt_name = column[16],
-           no_stops = column[17],
-           stop_name = column[18], 
+        #    id = column[0],
+           airline = column[0],
+           code = column[1],
+           duration = column[2],
+           price_e = column[3],
+           price_b = column[4],
+           price_fc = column[5],
+           time = column[6],
+           fromdest = column[7],
+           todest = column[8],
+           ns = column[9],
+           nsle = column[10],
+           nslb = column[11],
+           nslf = column[12],
+           obw = column[13],
+           baggage_lim = column[14],
+           apt_name = column[15],
+           no_stops = column[16],
+           stop_name = column[17], 
         )
 
     context={}
     return render(request, template, context)
 
-=======
-        return render(request, 'store/rooms.html', {'htl': htl_id, 'type': type_room, 'num_guest': no_guest, 'price': price, 'guests': guests, 'rooms': no_rooms, 'date': date})
-
 #'type': type_room,
->>>>>>> a9e874563429567c49186f725f967f7452cc92e8
