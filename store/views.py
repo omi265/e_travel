@@ -23,11 +23,12 @@ class AllFlights (View):
     def get (self,request):
         date = request.GET.get('date')
         print(type(date))
-        date = datetime.datetime.strptime(date, "%Y-%m-%d")
+        
         print(type(date))
         if (date == None):
             flights = Flights.get_all_flights().order_by('time')
         else:
+            date = datetime.datetime.strptime(date, "%Y-%m-%d")
             flights = Flights.objects.filter(time__range=[date, "2023-01-31"]).order_by('time')
         
         lines = Airlines.objects.all()
