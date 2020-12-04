@@ -16,4 +16,5 @@ urlpatterns = [
     path('login/', views.loginpage, name='login'),
     path('profile/', views.profilepage, name='profile'),
     # path('logout', views.logout, name='logout'),
+    path('upload-csv/', views.flights_upload, name='flights_upload'),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

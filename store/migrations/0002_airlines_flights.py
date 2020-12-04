@@ -14,14 +14,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Airlines',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID', default=1)),
                 ('airline', models.CharField(max_length=20, null=True)),
             ],
         ),
         migrations.CreateModel(
             name='Flights',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID', default=1)),
                 ('code', models.CharField(max_length=8, null=True)),
                 ('duration', models.CharField(max_length=20, null=True)),
                 ('time', models.DateTimeField()),

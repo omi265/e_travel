@@ -9,7 +9,11 @@ from django.views.generic.edit import UpdateView
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from .forms import Updatecustomerinfo, Updateuserinfo
+#csv
+import csv, io
+from django.contrib.auth.decorators import permission_required 
 from django.contrib import messages
+
 #from .signals import create_custprofile, save_custprofile
 
 def index(request):
@@ -522,3 +526,48 @@ class BookHotel (View):
             
 
         return render(request, 'store/rooms.html', {'guests': guests, 'type': type_room, 'price': price})
+
+
+@permission_required('admin.can_add_log_entry')
+def flights_upload(request):
+    template = "store/flightsupload.html"
+
+    prompt = {
+        'order': 'Order of CSV should be airline, code, duration, price_e, price_b, price_fc, time, fromdest, todest, ns, nsle, nslb, nslf, obw, baggage_lim, apt_name, no_stops, stop_name'
+    }
+
+    if request.method == "GET":
+        return render(request, template, prompt)
+    
+    csv_file = request.FILES['file']
+
+    data_set = csv_file.read().decode('UTF-8')
+    io_string = io.StringIO(data_set)
+    next(io_string)
+
+    for column in csv.reader(io_string, delimiter = ','):
+        _, created = Flights.objects.update_or_create(
+           #id = column[0],
+           airline = column[1],
+           code = column[2],
+           duration = column[3],
+           price_e = column[4],
+           price_b = column[5],
+           price_fc = column[6],
+           time = column[7],
+           fromdest = column[8],
+           todest = column[9],
+           ns = column[10],
+           nsle = column[11],
+           nslb = column[12],
+           nslf = column[13],
+           obw = column[14],
+           baggage_lim = column[15],
+           apt_name = column[16],
+           no_stops = column[17],
+           stop_name = column[18], 
+        )
+
+    context={}
+    return render(request, template, context)
+

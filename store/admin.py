@@ -2,6 +2,7 @@ from django.contrib import admin
 #from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from .models import Customer, Airlines, Flights, Location, Hotel, Ticket, Rooms
+#from import_export.admin import ImportExportModelAdmin
 # Register your models here.
 
 admin.site.register(Customer)
@@ -12,6 +13,11 @@ admin.site.register(Hotel)
 admin.site.register(Ticket)
 admin.site.register(Rooms)
 
+"""
+@admin.register(Flights)
+class ViewAdmin(ImportExportModelAdmin):
+    pass
+"""
 """
 class ProfileInline(admin.StackedInline):
     model = Customer
