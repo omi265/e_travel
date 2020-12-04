@@ -84,6 +84,8 @@ class Location(models.Model):
 class Hotel(models.Model):
     place = models.ForeignKey('Location', on_delete=models.CASCADE)
     address = models.CharField(max_length=300, null=True)
+    img_1 = models.CharField(max_length=10000, default="", blank=True)
+    img_2 = models.CharField(max_length=10000, default="", blank=True)
     name = models.CharField(max_length=20, null=True)
     numrooms = models.IntegerField(default=2)
     no_std = models.IntegerField(null=True) #number of standard rooms

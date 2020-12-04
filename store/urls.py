@@ -12,6 +12,7 @@ urlpatterns = [
     path('rooms', views.BookHotel.as_view(), name='rooms'),
     path('history', views.history, name='history'),
     path('rec', views.flt_hotels, name='rec'),
+    path('rate', views.rate, name='rate'),
     # path('filter', views.Filter.as_view(), name='filter'),
     # path('signup', views.Signup.as_view(), name='signup'),
     path('login/', views.loginpage, name='login'),

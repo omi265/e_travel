@@ -97,15 +97,15 @@
                                     <div class="modal-body">
                                         <div class="m-2 p-2">
                                             <div class="row">
+                                                {% if htls.img_1 %}
                                                 <div class="w3-content w3-display-container">
-                                                    <img class="mySlides" src="https://www.gannett-cdn.com/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg?width=2119&height=1195&fit=crop&format=pjpg&auto=webp" style="width:100%">
-                                                    <img class="mySlides" src="https://assets.tivolihotels.com/image/upload/q_auto,f_auto/media/minor/tivoli/images/brand_level/footer/1920x1000/thr_aboutus1_1920x1000.jpg" style="width:100%">
-                                                    <img class="mySlides" src="https://static.toiimg.com/thumb/30282584/WelcomHotel-Bella-Vista.jpg?width=1200&height=900" style="width:100%">
-                                                    <img class="mySlides" src="https://pix10.agoda.net/hotelImages/503084/-1/0a62cf8d3bead3938ff3b614f51cabe3.jpg?s=1024x768" style="width:100%">
+                                                    <img class="mySlides" src="{{htls.img_1}}" style="width:100%">
+                                                    <img class="mySlides" src="{{htls.img_2}}" style="width:100%">
                                                   
                                                     <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
                                                     <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
                                                 </div>
+                                                {% endif %}
                                             </div>
                                             <div class="row">
                                                 <h5 class="card-title mx-auto mb-3">{{htls.name}} - {{htls.place}}</h5>
@@ -124,7 +124,9 @@
                                                 <p class="card-text mx-auto">Price of Special rooms - {{htls.price_spl}}</p>
                                                 <p class="card-text mx-auto">Price of Suites - {{htls.price_suite}}</p>
                                             </div>
-                                            <form action="/store/hotels" method="POST">
+                                            {% for vis in visited %}
+                                            {% if vis.hotel.id == htls.id %}
+                                            <form action="/store/rate" method="POST">
                                                 {% csrf_token %}
                                                 <input type="text" name='htl' hidden value="{{htls.id}}">
                                                 <div class="input-rating">
@@ -137,8 +139,11 @@
                                                       <input type="radio" id="star1" name="rate" value="5" /><label for="star1">5</label>
                                                     </div>
                                                   </div>
+                                                  <input type="submit" class="btn btn-primary float-right mb-3" value="Submit rating">  
                                             </form>
-                                            <a class="btn btn-outline-primary float-right mt-3" href="/store/rooms?hotel={{htls.id}}">Book Now!</a>
+                                            {% endif %}
+                                            {% endfor %}
+                                            <a class="btn btn-outline-primary float-right mr-3" href="/store/rooms?hotel={{htls.id}}">Book Now!</a>
                                             <!-- <input type="submit" value="Book Now !" class="btn btn-outline-primary float-right mt-3"> -->
                                             
                                             <!--<input type="submit" value="No rooms left" disabled class="btn btn-outline-danger float-right mt-3">

@@ -109,12 +109,7 @@ class AllFlights (View):
             tdate = tdate.strftime("%Y-%m-%d")
         return render (request,'store/flights.html', {'flights': search_flts, 'fromloc': fromloc, 'toloc': toloc, 'tdate': tdate, 'airlines': lines})
 
-# class Filter (View):
-#     def post (self,request):
-#         wifi = request.POST.get('obw')
-#         non_stop = request.POST.get('non_stop')
-#         print(wifi)
-#         print(non_stop)
+
 
 class BookFlts (View):
     def get (self,request):
@@ -258,8 +253,10 @@ class AllHotels (View):
             for pl in plc:
                 if (plc):
                     htls = Hotel.objects.filter(place = pl.id)
+        cust_obj = User.objects.filter(id = request.user.id)
+        hotels = Rooms.get_by_user(cust_obj)
 
-        return render(request, 'store/hotels.html', {'hotels' : htls, 'loc': htl_loc})
+        return render(request, 'store/hotels.html', {'hotels' : htls, 'loc': htl_loc, 'visited': hotels})
 
     def post (self,request):
         places = Location.objects.all()
@@ -307,35 +304,26 @@ class AllHotels (View):
 
         print(loc_htls)
         search_htls = search_htls & loc_htls & wifi_htls & pool_htls & parking_htls & pets_htls
+        cust_obj = User.objects.filter(id = request.user.id)
+        hotels = Rooms.get_by_user(cust_obj)
         
-        return render (request,'store/hotels.html', {'hotels': search_htls, 'loc': loc, 'stdate': stdate, 'places': places, 'codate': codate})
+        return render (request,'store/hotels.html', {'hotels': search_htls, 'loc': loc, 'stdate': stdate, 'places': places, 'codate': codate, 'visited': hotels})
+
+def rate(request):
+    rating = request.POST.get('rate')
+    rating = float(rating)
+    htl_id = request.POST.get('htl')
+    htl_obj = Hotel.objects.filter(id = htl_id)
+    for htl in htl_obj:
+        star = htl.stars
+        star = star + rating
+        star = star/2
+        htl.stars = star
+        htl.save()
+
+    return redirect('hotels')
 
 
-
-#---------------------------------------------------------------------------------------------------------------
-"""
-        lochotel = request.POST.get('place')
-        #nameofhotel = request.POST.get('name')
-        #rating = request.POST.get('stars')
-        print(lochotel)
-        tdate = request.POST.get('date')
-        print(tdate)
-        if (tdate != ""):
-            tdate = datetime.datetime.strptime(tdate, "%Y-%m-%d")
-            date = tdate
-        else:
-            date = datetime.date.today()
-        print(tdate)
-        l_hotels = Hotel.objects.filter(place__icontains = lochotel).order_by('name') ###########################
-        #if (rating != ""):
-        #    disphotels = Hotel.objects.filter(stars__icontains = rating).order_by('name')
-        #else:
-        #    disphotels = Hotel.get_all_hotels().order_by('name')
-        #search_hotels = lochotels & disphotels
-        search_hotels = l_hotels ###########################
-        return render (request,'store/hotels.html', {'hotels': search_hotels, 'lochotel': lochotel, 'nameofhotel': nameofhotel, 'rating': rating})
-"""
-#----------------------------------------------------------------------------------------------------------------------
 
 def loginpage(request):
 
@@ -356,54 +344,7 @@ def loginpage(request):
 
 def logoutpage(request):
     logout(request)
-"""
-class profilepage(UpdateView):
-    def get(self , request):
-        return render(request, 'store/profile.html')
 
-    def post(self , request):
-        postData=request.POST
-        name=postData.get('name')
-        phone=postData.get('phone')
-        email=postData.get('email')
-        
-        value = {'name': name, 'phone': phone, 'email': email}
-
-        customer = Customer(name=name, phone=phone, email=email)
-        current_user = request.user.username
-        print(current_user)
-        #current_user = User(first_name=name, email=email)
-        #create_or_update_user_profile(User, Customer, created=True)
-        print(name, phone, email)
-        customer.register()
-
-        return redirect('/store/')
-"""
-"""
-#@login_required
-def profilepage(request):
-    if request.method == 'GET':
-        return render(request, 'store/profile.html')
-
-    elif request.method == 'POST':
-        postData=request.POST
-        name=postData.get('name')
-        phone=postData.get('phone')
-        email=postData.get('email')
-
-        value = {'name': name,'phone': phone, 'email': email}
-        current_user = request.user 
-        customer = Customer(name=name, phone=phone, email=email)
-        print(request.user.username)
-        current_user.customer.name=name
-        current_user.customer.phone=phone
-        current_user.customer.email=email
-        print(customer.name)
-        customer.register()
-
-        return render(request, 'store/profile.html')
-
-"""
 
 @login_required 
 def profilepage(request):
@@ -428,30 +369,6 @@ def profilepage(request):
     
 
     
-"""
-    if request.method == 'POST':
-        userupdate = Updateuserinfo(request.POST, instance=request.user)
-        customerupdate = Updatecustomerinfo(request.POST, request.FILES, instance=request.user.Customer)
-        if userupdate.is_valid() and customerupdate.is_valid():
-            userupdate.save()
-            customerupdate.save()
-            messages.success(request,'Update successful')
-            return redirect('profile')
-    else:
-        userupdate = Updateuserinfo(instance=request.user)
-        customerupdate = Updatecustomerinfo(instance=request.user.Customer)
-
-    context = {'customerupdate':customerupdate, 'userupdate': userupdate}
-    return render(request, 'store/profile.html', context)
-    """
-"""
-    context = {}
-    if request.method=='POST':
-        return render(request, 'store/profile.html', context)
-
-    else:
-        return render(request, 'store/login.html', context)
-"""
 
 class BookHotel (View):
     def get (self,request):
