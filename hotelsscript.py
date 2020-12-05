@@ -8,7 +8,7 @@ import csv
 from store.models import Hotel, Location
 #import datetime
 
-with open(r'C:\Users\manya\Desktop\Hotels.csv') as csvfile:
+with open(r'C:\Users\manya\Desktop\Hotels2.csv') as csvfile:
   reader = csv.DictReader(csvfile)
   for row in reader:
     place = Location.objects.get(place=row['place'])
