@@ -88,6 +88,7 @@
             </table>
             {% for flt in flight %}
             <a href="/store/hotels?loc={{flt.todest}}" class="btn btn-primary float-right ml-3">Look For Hotels in {{flt.todest}}</a>
+            <a href="/store/flights?from_loc={{flt.todest}}&to_loc={{flt.fromdest}}" class="btn btn-primary float-right ml-3">Book Return Flight</a>
             {% endfor %}
             <a href="/store/flights" class="btn btn-primary float-right">Go Back Home</a>
         </div>
