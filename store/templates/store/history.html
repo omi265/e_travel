@@ -46,6 +46,14 @@
                 </div>
             </div>
             {% endfor %}
+            {% else %}
+            <div class="card w-100 text-center mb-4" style="color: rgb(46, 46, 46);">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-8"><h5 class="card-title float-left ml-2">No Flight Bookings</h5></div>
+                    </div>
+                </div>
+            </div>
             {% endif %}
             {% if hotels %}
             <h3 class="mb-3 mt-3"> Hotels - </h3>
@@ -88,6 +96,14 @@
                 </div>
             </div>
             {% endfor %}
+            {% else %}
+            <div class="card w-100 text-center" style="color: rgb(46, 46, 46);">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-8"><h5 class="card-title float-left ml-2">No Hotel Bookings</h5></div>
+                    </div>
+                </div>
+            </div>
             {% endif %}
         </div>
     </div>

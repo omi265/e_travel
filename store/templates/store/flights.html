@@ -122,7 +122,27 @@
             </div>
         </div>
       <div class="col-lg-8 mx-auto">
-          {% for flt in flights %}
+        {% if pages %}
+        <div class="row mb-3">
+            <div class="col-lg-4 mx-auto">
+                {% if flights.has_previous %}
+                <a class="btn btn-outline-primary ml-5" href="/store/flights?page={{flights.previous_page_number}}">Previous Page Page</a>
+                {% endif %}
+            </div>
+            <div class="col-lg-5">
+                <div class="ml-5">
+                    <h5 class='ml-5' style="color: rgba(255, 255, 255, 0.795);"> {{page_num}} of {{pages}} Pages </h5>
+                </div>
+            </div>
+            <div class="col-lg-3 mx-auto">
+                {% if flights.has_next %}
+                <a class="btn btn-outline-primary ml-5" href="/store/flights?page={{flights.next_page_number}}">Next Page</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        {% if flights %}
+        {% for flt in flights %}
         <div class="row mx-auto mb-3">
             <div class="card w-100 text-center" style="background-color: rgba(255, 255, 255, 0.253); color: rgba(255, 255, 255, 0.795);">
                 <div class="card-body">
@@ -206,6 +226,15 @@
             </div>
         </div>
         {% endfor %}
+        {% else %}
+        <div class="card w-100 text-center" style="background-color: rgba(255, 255, 255, 0.253); color: rgba(255, 255, 255, 0.795);">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-8"><h5 class="card-title float-left ml-2">There are no flights to be displayed</h5></div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
       </div>
     </div>
     
