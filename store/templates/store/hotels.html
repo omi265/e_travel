@@ -63,12 +63,23 @@
                             <label class="form-check-label" for="inlineCheckbox3">Parking</label>
                         </div>
                     </div>
-                    <div class="form-row mt-4 ml-2">
-                        <div class="form-check form-check-inline float-left">
-                            <input class="form-check-input" type="checkbox" name='sort' value="True" id="inlineCheckbox3" value="option3">
-                            <label class="form-check-label" for="inlineCheckbox3">Sort by ratings</label>
-                        </div>
-                    </div>    
+                    <div class="form-row mt-4">
+                        <label for="type">Sort By</label>
+                    </div>
+                    <div class="form-row">
+                        <select class="form-control col-3 float-right" id="type" name="sort">
+                            {% if type == "Ratings" %}
+                            <option selected>Ratings</option>
+                            {% else %}
+                            <option>Ratings</option>
+                            {% endif %}
+                            {% if type == "Price" %}
+                            <option selected>Price</option>
+                            {% else %}
+                            <option>Price</option>
+                            {% endif %}
+                        </select>
+                    </div>>    
                     </div>
                 </div>
             </form>
@@ -85,7 +96,7 @@
                         </div>
                         <div class="row mx-auto mt-3">
                             <p class="card-text mx-auto">{{htls.place}}</p> 
-                            <h6 class="card-text mx-auto">Average price per night: {{ htls.price_std }}</h6>
+                            <h6 class="card-text mx-auto">Average price per night: ₹{{ htls.price_std }}</h6>
                         </div>
                         <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#hotel_{{htls.id}}">
                             Book Now!
@@ -127,9 +138,9 @@
                                                 <p class="card-text mx-auto">Pool - {{htls.pool}}</p>
                                             </div>
                                             <div class="row mx-auto mt-5 mb-5" style="color: rgb(34, 31, 31);">
-                                                <p class="card-text mx-auto">Price of Standard rooms - {{htls.price_std}}</p>
-                                                <p class="card-text mx-auto">Price of Special rooms - {{htls.price_spl}}</p>
-                                                <p class="card-text mx-auto">Price of Suites - {{htls.price_suite}}</p>
+                                                <p class="card-text mx-auto">Price of Standard rooms - ₹{{htls.price_std}}</p>
+                                                <p class="card-text mx-auto">Price of Special rooms - ₹{{htls.price_spl}}</p>
+                                                <p class="card-text mx-auto">Price of Suites - ₹{{htls.price_suite}}</p>
                                             </div>
                                             {% for vis in visited %}
                                             {% if vis.hotel.id == htls.id %}

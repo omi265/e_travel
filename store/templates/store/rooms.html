@@ -163,7 +163,8 @@
                 <p class="card-text">Number of rooms allocated = {{rooms}}</p> 
                 {% endif %}
                 <input type="text" name="hotel" hidden value="{{htl}}">
-                <input type="date" name="date" class="form-control mb-3" value="{{date}}">
+                <label for="date">Date -</label>
+                <input type="date" name="date" class="form-control mb-3" value="{{date}}" id="date">
         
                 {% for guest in guests %}  
                 <label for="guests">Details for Guest {{guest}}</label>
@@ -191,7 +192,7 @@
                 
                 {% if price %}
                 <input type="submit" class="btn btn-primary float-right">
-                <input type="submit" class="btn btn-primary float-right mr-2" value="{{price}}">
+                <input type="submit" class="btn btn-primary float-right mr-2" value="₹{{price}}">
                 {% else %}
                 <input type="submit" class="btn btn-primary float-right">
                 {% endif %}

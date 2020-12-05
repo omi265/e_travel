@@ -76,6 +76,7 @@ class AllFlights (View):
         night = request.POST.get('night')
         search_flts = Flights.get_all_flights().order_by('time')
         airlines = request.POST.getlist('airlines[]')
+        sort_by = request.POST.get('sort')
         print(airlines)
         air_flts = Flights.objects.none()
         for air in airlines:
@@ -142,6 +143,8 @@ class AllFlights (View):
         search_flts= search_flts & non_flts & src_flts & em_flts & m_flts & a_flts & n_flts & air_flts
         if (tdate != ""):
             tdate = tdate.strftime("%Y-%m-%d")
+        if (sort_by != None):
+            search_flts = search_flts.order_by('price_e')
         # p = Paginator(search_flts, 6)
         # page_num = request.GET.get('page', 1)
         # page = p.page(page_num)
@@ -315,13 +318,10 @@ class AllHotels (View):
         pets = request.POST.get('pets')
         pool = request.POST.get('pool')
         parking = request.POST.get('parking')
-        srt = request.POST.get('sort')
+        sort_by = request.POST.get('sort')
         cust_rate = request.POST.get('rate')
         htl = request.POST.get('htl')
-        
-        print(htl)
-        print(codate)
-        print(loc)
+        # print(srt_price)
         loc_htls = Hotel.objects.none()
         search_htls = Hotel.get_all_hotels()
         location = request.POST.getlist('location[]')
@@ -354,14 +354,20 @@ class AllHotels (View):
             parking_htls = Hotel.objects.all()
 
         search_htls = search_htls & loc_htls & wifi_htls & pool_htls & parking_htls & pets_htls
-        if (srt != None):
-            print("Aaaya")
+        if (sort_by == "Ratings"):
             search_htls = search_htls.order_by('-stars')
-            print (search_htls)
+        if (sort_by == "Price"):
+            search_htls = search_htls.order_by('price_std')
+
+        # if (srt != None):
+        #     print("Aaaya")
+        #     search_htls = search_htls.order_by('-stars')
+        # if (srt_price != None):
+        #     search_htls = search_htls.order_by('price_std')
         cust_obj = User.objects.filter(id = request.user.id)
         hotels = Rooms.get_by_user(cust_obj)
         
-        return render (request,'store/hotels.html', {'hotels': search_htls, 'loc': loc, 'stdate': stdate, 'places': places, 'codate': codate, 'visited': hotels, 'pages': False})
+        return render (request,'store/hotels.html', {'hotels': search_htls, 'loc': loc, 'stdate': stdate, 'places': places, 'codate': codate, 'visited': hotels, 'pages': False, 'type': sort_by})
 
 def rate(request):
     rating = request.POST.get('rate')
